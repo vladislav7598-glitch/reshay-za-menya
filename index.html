@@ -55,6 +55,11 @@ input,select{background:#1c1c29;color:white;border:1px solid #414151;border-radi
 .movie-actions{display:flex;gap:7px;margin-top:10px}
 .movie-actions button{font-size:11px;padding:7px 9px}
 .badge{display:inline-block;background:#30273f;color:#d5bfff;border-radius:7px;padding:4px 7px;font-size:10px;margin:3px 3px 0 0}
+.genre-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
+.genre-button{background:#1c1c29;border:1px solid #30303e;border-radius:13px;padding:15px 10px;color:white;text-align:left;font-size:14px}
+.genre-button:active{border-color:#a879ff;background:#292139}
+.genre-button.all{grid-column:1/-1;text-align:center;background:#302442;border-color:#7953d2;font-weight:700}
+.step-note{color:#999;font-size:13px;line-height:1.5;margin:0 0 15px}
 footer{text-align:center;color:#666;font-size:12px;margin-top:30px}
 </style>
 </head>
@@ -99,24 +104,37 @@ footer{text-align:center;color:#666;font-size:12px;margin-top:30px}
 <div id="customList"></div>
 </div>
 
-<div id="catalog" class="panel">
+<div id="typeChoice" class="panel">
 <div class="topline">
 <button class="back" onclick="goHome()">← Назад</button>
 <strong>Каталог кино</strong>
 </div>
-<div class="tabs">
-<button class="action" id="filmsTab" onclick="setType('Фильм')">Фильмы</button>
-<button class="action secondary" id="seriesTab" onclick="setType('Сериал')">Сериалы</button>
+<h2>Что будем смотреть?</h2>
+<p class="step-note">Сначала выбери тип произведения.</p>
+<div class="options">
+<button class="option" onclick="chooseMovieType('Фильм')">🎬 Фильмы</button>
+<button class="option" onclick="chooseMovieType('Сериал')">📺 Сериалы</button>
 </div>
+</div>
+
+<div id="genreChoice" class="panel">
+<div class="topline">
+<button class="back" onclick="backToType()">← Назад</button>
+<strong id="genreHeading">Выбор жанра</strong>
+</div>
+<h2>Какой жанр интересует?</h2>
+<p class="step-note">Выбери настроение — и мы покажем подходящие произведения.</p>
+<div id="genreGrid" class="genre-grid"></div>
+</div>
+
+<div id="catalog" class="panel">
+<div class="topline">
+<button class="back" onclick="backToGenres()">← К жанрам</button>
+<strong id="catalogHeading">Каталог</strong>
+</div>
+<div class="muted" id="activeGenreLabel"></div>
 <div class="movie-controls">
 <input id="movieSearch" placeholder="Поиск по названию..." oninput="renderMovies()">
-<select id="genreFilter" onchange="renderMovies()">
-<option value="">Все жанры</option>
-<option>Драма</option><option>Комедия</option><option>Фантастика</option>
-<option>Боевик</option><option>Триллер</option><option>Детектив</option>
-<option>Приключения</option><option>Криминал</option><option>Мелодрама</option>
-<option>История</option><option>Фэнтези</option><option>Ужасы</option>
-</select>
 <select id="countryFilter" onchange="renderMovies()">
 <option value="">Все страны</option>
 <option value="Россия">Россия</option>
@@ -125,7 +143,7 @@ footer{text-align:center;color:#666;font-size:12px;margin-top:30px}
 </div>
 <div class="row">
 <button class="action" onclick="randomMovie()">🎲 Выбери за меня</button>
-<button class="action secondary" onclick="resetFilters()">Сбросить фильтры</button>
+<button class="action secondary" onclick="resetSearch()">Сбросить поиск</button>
 </div>
 <div class="muted" id="movieCount" style="margin-top:13px"></div>
 <div id="movieList" class="movie-list"></div>
@@ -195,8 +213,9 @@ const movies=[
 
 const icons=["🎬","🍳","📍","✨","🎁","🎲"];
 const names=Object.keys(data);
+const genres=["Все жанры","Боевик","Драма","Детектив","Комедия","Криминал","Триллер","Фантастика","Фэнтези","Приключения","Мелодрама","История","Ужасы"];
 let current="",shown=[],selected="",result="",used={};
-let movieType="Фильм",selectedMovie=null;
+let movieType="Фильм",activeGenre="Все жанры",selectedMovie=null;
 
 function read(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
@@ -206,7 +225,7 @@ let history=read("history",[]);
 
 function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
 function hidePanels(){
-["game","catalog","detail","saved"].forEach(id=>document.getElementById(id).classList.remove("active"));
+["game","catalog","detail","saved","typeChoice","genreChoice"].forEach(id=>document.getElementById(id).classList.remove("active"));
 document.getElementById("home").style.display="none";
 }
 function goHome(){
@@ -282,22 +301,43 @@ document.getElementById("savedList").innerHTML=a.length?a.map((x,i)=>`<div class
 function removeFavorite(i){favorites.splice(i,1);save("favorites",favorites);showSaved("favorites");}
 
 function openCatalog(){
-hidePanels();document.getElementById("catalog").classList.add("active");
-setType("Фильм");
+hidePanels();
+document.getElementById("typeChoice").classList.add("active");
 }
-function setType(t){
+function chooseMovieType(t){
 movieType=t;
-document.getElementById("filmsTab").className=t==="Фильм"?"action":"action secondary";
-document.getElementById("seriesTab").className=t==="Сериал"?"action":"action secondary";
+hidePanels();
+document.getElementById("genreChoice").classList.add("active");
+document.getElementById("genreHeading").textContent=t==="Фильм"?"Жанры фильмов":"Жанры сериалов";
+renderGenres();
+}
+function renderGenres(){
+document.getElementById("genreGrid").innerHTML=genres.map((g,i)=>`<button class="genre-button ${i===0?"all":""}" onclick="chooseGenre('${g}')">${g==="Все жанры"?"🎬 "+g:g}</button>`).join("");
+}
+function backToType(){
+hidePanels();
+document.getElementById("typeChoice").classList.add("active");
+}
+function chooseGenre(g){
+activeGenre=g;
+hidePanels();
+document.getElementById("catalog").classList.add("active");
+document.getElementById("catalogHeading").textContent=movieType==="Фильм"?"Фильмы":"Сериалы";
+document.getElementById("activeGenreLabel").textContent="Жанр: "+g;
+document.getElementById("movieSearch").value="";
+document.getElementById("countryFilter").value="";
 renderMovies();
+}
+function backToGenres(){
+hidePanels();
+document.getElementById("genreChoice").classList.add("active");
 }
 function filteredMovies(){
 let q=document.getElementById("movieSearch").value.trim().toLowerCase();
-let g=document.getElementById("genreFilter").value;
 let c=document.getElementById("countryFilter").value;
 return movies.filter(m=>m.type===movieType&&
+(activeGenre==="Все жанры"||m.genre===activeGenre)&&
 (!q||m.title.toLowerCase().includes(q))&&
-(!g||m.genre===g)&&
 (!c||(c==="Россия"?m.country==="Россия":m.country!=="Россия")));
 }
 function renderMovies(){
@@ -314,11 +354,10 @@ document.getElementById("movieList").innerHTML=list.length?list.map(m=>`
 <button class="action secondary" onclick="showDetail(${m.id})">Подробнее</button>
 <button class="action secondary" onclick="favoriteMovie(${m.id})">★</button>
 </div>
-</div></div>`).join(""):'<div class="empty">Ничего не найдено. Попробуй изменить фильтры.</div>';
+</div></div>`).join(""):'<div class="empty">Пока нет произведений этого жанра. Попробуй другой жанр.</div>';
 }
-function resetFilters(){
+function resetSearch(){
 document.getElementById("movieSearch").value="";
-document.getElementById("genreFilter").value="";
 document.getElementById("countryFilter").value="";
 renderMovies();
 }
@@ -353,7 +392,7 @@ alert("Добавлено в избранное!");
 }
 function randomMovie(){
 let list=filteredMovies();
-if(!list.length)return alert("Нет фильмов для выбора. Измени фильтры.");
+if(!list.length)return alert("Нет произведений для выбора. Измени жанр или фильтры.");
 let m=list[Math.floor(Math.random()*list.length)];
 showDetail(m.id);
 history.unshift({category:"Каталог · "+m.type,value:m.title+" ("+m.year+")",date:new Date().toLocaleString("ru-RU")});
