@@ -5,86 +5,333 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#101016">
+
+<link rel="manifest" href="./manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Решай за меня">
+
 <title>Решай за меня</title>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#101016;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.app{max-width:650px;margin:auto;padding:25px 18px 50px}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:35px}
-.logo{font-size:21px;font-weight:800;letter-spacing:-.7px}
+
+body{
+ margin:0;
+ background:#101016;
+ color:#fff;
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+}
+
+.app{
+ max-width:650px;
+ margin:auto;
+ padding:25px 18px 50px
+}
+
+header{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:35px
+}
+
+.logo{
+ font-size:21px;
+ font-weight:800;
+ letter-spacing:-.7px
+}
+
 .logo span{color:#a78bfa}
-.tag{font-size:11px;color:#a78bfa;background:#29213b;padding:7px 11px;border-radius:20px}
-h1{font-size:30px;line-height:1.15;margin:0 0 10px;letter-spacing:-1px}
-.sub{color:#92919f;font-size:14px;line-height:1.5;margin-bottom:27px}
-.section-title{font-size:15px;margin:25px 0 14px}
-.categories{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
-.cat{background:#1b1b25;border:1px solid #292936;border-radius:17px;padding:17px 14px;color:white;text-align:left;cursor:pointer;min-height:105px}
-.cat:active,.cat.active{border-color:#9875f5;background:#272037}
-.emoji{font-size:26px;display:block;margin-bottom:12px}
+
+.tag{
+ font-size:11px;
+ color:#a78bfa;
+ background:#29213b;
+ padding:7px 11px;
+ border-radius:20px
+}
+
+h1{
+ font-size:30px;
+ line-height:1.15;
+ margin:0 0 10px;
+ letter-spacing:-1px
+}
+
+.sub{
+ color:#92919f;
+ font-size:14px;
+ line-height:1.5;
+ margin-bottom:27px
+}
+
+.section-title{
+ font-size:15px;
+ margin:25px 0 14px
+}
+
+.categories{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:11px
+}
+
+.cat{
+ background:#1b1b25;
+ border:1px solid #292936;
+ border-radius:17px;
+ padding:17px 14px;
+ color:white;
+ text-align:left;
+ cursor:pointer;
+ min-height:105px
+}
+
+.cat:active,.cat.active{
+ border-color:#9875f5;
+ background:#272037
+}
+
+.emoji{
+ font-size:26px;
+ display:block;
+ margin-bottom:12px
+}
+
 .cat b{font-size:14px}
-.panel{margin-top:25px;background:#1b1b25;border:1px solid #30303c;border-radius:20px;padding:18px;display:none}
-.panel h2{font-size:20px;margin:0 0 6px}
-.muted{font-size:13px;color:#92919f;margin-bottom:17px}
-.option{background:#252531;border:1px solid #353542;border-radius:13px;padding:14px;margin:9px 0;display:flex;align-items:center;gap:12px}
+
+.panel{
+ margin-top:25px;
+ background:#1b1b25;
+ border:1px solid #30303c;
+ border-radius:20px;
+ padding:18px;
+ display:none
+}
+
+.panel h2{
+ font-size:20px;
+ margin:0 0 6px
+}
+
+.muted{
+ font-size:13px;
+ color:#92919f;
+ margin-bottom:17px
+}
+
+.option{
+ background:#252531;
+ border:1px solid #353542;
+ border-radius:13px;
+ padding:14px;
+ margin:9px 0;
+ display:flex;
+ align-items:center;
+ gap:12px;
+ cursor:pointer
+}
+
 .option .symbol{font-size:25px}
 .option .info{flex:1}
+
 .option strong{font-size:14px}
-.option small{display:block;color:#aaa9b5;font-size:12px;margin-top:5px;line-height:1.4}
-.option.selected{border-color:#a78bfa;background:#302643}
+
+.option small{
+ display:block;
+ color:#aaa9b5;
+ font-size:12px;
+ margin-top:5px;
+ line-height:1.4
+}
+
+.option.selected{
+ border-color:#a78bfa;
+ background:#302643
+}
+
 button{font-family:inherit}
-.main-btn{width:100%;padding:16px;border:0;border-radius:14px;background:linear-gradient(110deg,#8056e9,#a36bf4);color:white;font-size:15px;font-weight:750;margin-top:13px;cursor:pointer}
-.secondary{width:100%;padding:13px;border:1px solid #41404e;border-radius:13px;background:transparent;color:#ddd;font-size:14px;margin-top:10px;cursor:pointer}
-.result{display:none;background:#302643;border:1px solid #a78bfa;border-radius:15px;padding:17px;margin-top:15px}
+
+.main-btn{
+ width:100%;
+ padding:16px;
+ border:0;
+ border-radius:14px;
+ background:linear-gradient(110deg,#8056e9,#a36bf4);
+ color:white;
+ font-size:15px;
+ font-weight:750;
+ margin-top:13px;
+ cursor:pointer
+}
+
+.secondary{
+ width:100%;
+ padding:13px;
+ border:1px solid #41404e;
+ border-radius:13px;
+ background:transparent;
+ color:#ddd;
+ font-size:14px;
+ margin-top:10px;
+ cursor:pointer
+}
+
+.favorite-btn{
+ width:100%;
+ padding:12px;
+ border:1px solid #625080;
+ border-radius:13px;
+ background:#272037;
+ color:#d8c7ff;
+ font-size:14px;
+ margin-top:10px;
+ cursor:pointer
+}
+
+.result{
+ display:none;
+ background:#302643;
+ border:1px solid #a78bfa;
+ border-radius:15px;
+ padding:17px;
+ margin-top:15px
+}
+
 .result small{color:#c4b5fd}
-.result h3{font-size:21px;margin:8px 0}
-.nav{display:flex;gap:9px;margin-top:28px}
-.nav button{flex:1;padding:12px 5px;background:#1b1b25;border:1px solid #30303c;border-radius:12px;color:#aaa;font-size:12px}
-.nav button.active{color:#fff;border-color:#9875f5}
-.list-item{padding:13px;background:#1b1b25;border-radius:12px;margin:9px 0;font-size:14px}
-footer{text-align:center;color:#666;font-size:11px;margin-top:35px}
-@media(min-width:500px){.categories{grid-template-columns:repeat(3,1fr)}}
+
+.result h3{
+ font-size:21px;
+ margin:8px 0
+}
+
+.nav{
+ display:flex;
+ gap:9px;
+ margin-top:28px
+}
+
+.nav button{
+ flex:1;
+ padding:12px 5px;
+ background:#1b1b25;
+ border:1px solid #30303c;
+ border-radius:12px;
+ color:#aaa;
+ font-size:12px
+}
+
+.nav button.active{
+ color:#fff;
+ border-color:#9875f5
+}
+
+.list-item{
+ padding:13px;
+ background:#1b1b25;
+ border-radius:12px;
+ margin:9px 0;
+ font-size:14px;
+ display:flex;
+ align-items:center;
+ gap:10px
+}
+
+.list-item span{flex:1}
+
+.remove-btn{
+ background:#30243c;
+ border:0;
+ color:#d7baff;
+ border-radius:8px;
+ padding:8px 10px;
+ cursor:pointer
+}
+
+footer{
+ text-align:center;
+ color:#666;
+ font-size:11px;
+ margin-top:35px
+}
+
+@media(min-width:500px){
+ .categories{grid-template-columns:repeat(3,1fr)}
+}
 </style>
 </head>
+
 <body>
+
 <div class="app">
+
 <header>
-<div class="logo">Решай <span>за меня</span></div>
-<div class="tag">ТВОЙ ПОМОЩНИК</div>
+ <div class="logo">Решай <span>за меня</span></div>
+ <div class="tag">ТВОЙ ПОМОЩНИК</div>
 </header>
 
 <h1>Что будем делать<br>сегодня?</h1>
-<div class="sub">Не трать время на раздумья. Выбери направление — а мы поможем определиться.</div>
+
+<div class="sub">
+ Не трать время на раздумья. Выбери направление — а мы поможем определиться.
+</div>
 
 <div id="home">
-<div class="section-title">Выбери категорию</div>
-<div class="categories" id="categories"></div>
+ <div class="section-title">Выбери категорию</div>
+ <div class="categories" id="categories"></div>
 </div>
 
 <div class="panel" id="panel">
-<h2 id="panelTitle"></h2>
-<div class="muted">Вот несколько идей для тебя. Выбирай или доверься нам.</div>
-<div id="options"></div>
-<div class="result" id="result">
-<small>✦ МЫ ПРИНЯЛИ РЕШЕНИЕ</small>
-<h3 id="resultName"></h3>
-<div id="resultDesc" class="muted"></div>
-</div>
-<button class="main-btn" onclick="decide()">🎲 Выбери за меня!</button>
-<button class="secondary" onclick="newOptions()">↻ Другие варианты</button>
-<button class="secondary" onclick="goHome()">← Все категории</button>
+
+ <h2 id="panelTitle"></h2>
+
+ <div class="muted">
+ Вот несколько идей для тебя. Выбирай или доверься нам.
+ </div>
+
+ <div id="options"></div>
+
+ <div class="result" id="result">
+  <small>✦ МЫ ПРИНЯЛИ РЕШЕНИЕ</small>
+  <h3 id="resultName"></h3>
+  <div id="resultDesc" class="muted"></div>
+ </div>
+
+ <button class="main-btn" onclick="decide()">
+  🎲 Выбери за меня!
+ </button>
+
+ <button class="favorite-btn" id="favoriteBtn" onclick="toggleFavorite()" style="display:none">
+  ♡ Добавить в избранное
+ </button>
+
+ <button class="secondary" onclick="newOptions()">
+  ↻ Другие варианты
+ </button>
+
+ <button class="secondary" onclick="goHome()">
+  ← Все категории
+ </button>
+
 </div>
 
 <div class="nav">
-<button class="active" onclick="showTab('home',this)">⌂ Главная</button>
-<button onclick="showTab('favorites',this)">♡ Избранное</button>
-<button onclick="showTab('history',this)">◷ История</button>
+ <button class="active" onclick="showTab('home',this)">⌂ Главная</button>
+ <button onclick="showTab('favorites',this)">♡ Избранное</button>
+ <button onclick="showTab('history',this)">◷ История</button>
 </div>
+
 <div id="extra"></div>
-<footer>Решай за меня · Твой выбор проще</footer>
+
+<footer>Решай за меня · Меньше сомнений — больше действий</footer>
+
 </div>
 
 <script>
+
 const data={
+
 "Что посмотреть?":[
 ["🎬","Комедию","Чтобы просто расслабиться и посмеяться."],
 ["🚀","Фантастику","Погрузиться в другой мир."],
@@ -96,6 +343,7 @@ const data={
 ["😂","Лёгкий сериал","Для уютного вечера."],
 ["🧙","Приключения","Отправиться в необычное путешествие."]
 ],
+
 "Что приготовить?":[
 ["🍝","Паста с курицей","Сытный и простой ужин."],
 ["🍕","Домашняя пицца","Любимая классика."],
@@ -107,6 +355,7 @@ const data={
 ["🥞","Блины","Подойдут и для завтрака, и для перекуса."],
 ["🍚","Рис с курицей","Просто, вкусно и сытно."]
 ],
+
 "Куда сходить?":[
 ["🌳","В парк","Прогуляться и подышать воздухом."],
 ["☕","В уютную кофейню","Немного отдохнуть."],
@@ -118,6 +367,7 @@ const data={
 ["🛍️","На прогулку по магазинам","Посмотреть интересные вещи."],
 ["🎤","В караоке","Хорошо провести вечер."]
 ],
+
 "Чем заняться?":[
 ["🎮","Поиграть в игру","Немного отвлечься."],
 ["📚","Почитать книгу","Провести время с пользой."],
@@ -129,6 +379,7 @@ const data={
 ["🎨","Попробовать творчество","Сделать что-нибудь своими руками."],
 ["🧘","Отдохнуть","Ничего не делать и восстановиться."]
 ],
+
 "Что подарить?":[
 ["🎧","Наушники","Практичный подарок для любителя музыки."],
 ["☕","Набор для кофе","Для приятных домашних утр."],
@@ -140,6 +391,7 @@ const data={
 ["🍫","Набор сладостей","Маленькая приятная радость."],
 ["🖼️","Фотокнигу","Подарок с личными воспоминаниями."]
 ],
+
 "Случайный выбор":[
 ["🎲","Устроить вечер кино","Выбрать фильм и приготовить вкусности."],
 ["🚶","Выйти погулять","Немного сменить обстановку."],
@@ -149,10 +401,9 @@ const data={
 ["🎵","Открыть новую музыку","Найти любимый трек."],
 ["🧁","Приготовить десерт","Порадовать себя чем-нибудь вкусным."]
 ]
+
 };
-let current="",shown=[],selected=-1;
-let favorites=JSON.parse(localStorage.getItem("rzm_fav")||"[]");
-let history=JSON.parse(localStorage.getItem("rzm_hist")||"[]");
+
 const categories=[
 ["🎬","Что посмотреть?"],
 ["🍽️","Что приготовить?"],
@@ -161,57 +412,218 @@ const categories=[
 ["🎁","Что подарить?"],
 ["🎲","Случайный выбор"]
 ];
+
+let current="";
+let shown=[];
+let selected=-1;
+
+function loadData(key){
+ try{
+  const value=JSON.parse(localStorage.getItem(key)||"[]");
+  return Array.isArray(value)?value:[];
+ }catch(e){
+  return [];
+ }
+}
+
+let favorites=loadData("rzm_fav");
+let history=loadData("rzm_hist");
+
+function saveData(){
+ localStorage.setItem("rzm_fav",JSON.stringify(favorites));
+ localStorage.setItem("rzm_hist",JSON.stringify(history));
+}
+
 function renderCategories(){
-document.getElementById("categories").innerHTML=categories.map(c=>`<button class="cat" onclick="openCategory('${c[1]}')"><span class="emoji">${c[0]}</span><b>${c[1]}</b></button>`).join("");
+ document.getElementById("categories").innerHTML=
+ categories.map(c=>
+ `<button class="cat" onclick="openCategory('${c[1]}')">
+ <span class="emoji">${c[0]}</span>
+ <b>${c[1]}</b>
+ </button>`
+ ).join("");
 }
+
 function openCategory(name){
-current=name;
-document.getElementById("home").style.display="none";
-document.getElementById("panel").style.display="block";
-document.getElementById("panelTitle").textContent=name;
-newOptions();
+ current=name;
+
+ document.getElementById("home").style.display="none";
+ document.getElementById("panel").style.display="block";
+ document.getElementById("panelTitle").textContent=name;
+
+ newOptions();
 }
+
 function newOptions(){
-const source=[...data[current]];
-shown=source.sort(()=>Math.random()-.5).slice(0,5);
-selected=-1;
-document.getElementById("result").style.display="none";
-renderOptions();
+ const source=[...data[current]];
+
+ shown=source.sort(()=>Math.random()-.5).slice(0,5);
+ selected=-1;
+
+ document.getElementById("result").style.display="none";
+ document.getElementById("favoriteBtn").style.display="none";
+
+ renderOptions();
 }
+
 function renderOptions(){
-document.getElementById("options").innerHTML=shown.map((o,i)=>`<div class="option ${selected===i?'selected':''}" onclick="selectOption(${i})"><span class="symbol">${o[0]}</span><div class="info"><strong>${o[1]}</strong><small>${o[2]}</small></div>${selected===i?'✓':''}</div>`).join("");
+ document.getElementById("options").innerHTML=
+ shown.map((o,i)=>
+ `<div class="option ${selected===i?'selected':''}" onclick="selectOption(${i})">
+ <span class="symbol">${o[0]}</span>
+ <div class="info">
+ <strong>${o[1]}</strong>
+ <small>${o[2]}</small>
+ </div>
+ ${selected===i?'✓':''}
+ </div>`
+ ).join("");
 }
+
 function selectOption(i){
-selected=i;
-renderOptions();
-document.getElementById("result").style.display="block";
-document.getElementById("resultName").textContent=shown[i][0]+" "+shown[i][1];
-document.getElementById("resultDesc").textContent=shown[i][2];
-saveHistory(shown[i][1]);
+ selected=i;
+
+ renderOptions();
+
+ const option=shown[i];
+
+ document.getElementById("result").style.display="block";
+ document.getElementById("resultName").textContent=
+ option[0]+" "+option[1];
+
+ document.getElementById("resultDesc").textContent=option[2];
+
+ document.getElementById("favoriteBtn").style.display="block";
+
+ const exists=favorites.some(x=>
+ x.category===current && x.name===option[1]
+ );
+
+ document.getElementById("favoriteBtn").textContent=
+ exists?"♥ Удалить из избранного":"♡ Добавить в избранное";
+
+ saveHistory(option);
 }
+
 function decide(){
-const i=Math.floor(Math.random()*shown.length);
-selectOption(i);
+ if(!shown.length)return;
+
+ const i=Math.floor(Math.random()*shown.length);
+ selectOption(i);
 }
-function saveHistory(name){
-history.unshift({category:current,name});
-history=history.slice(0,30);
-localStorage.setItem("rzm_hist",JSON.stringify(history));
+
+function toggleFavorite(){
+ if(selected<0)return;
+
+ const option=shown[selected];
+
+ const index=favorites.findIndex(x=>
+ x.category===current && x.name===option[1]
+ );
+
+ if(index>=0){
+  favorites.splice(index,1);
+ }else{
+  favorites.unshift({
+   category:current,
+   emoji:option[0],
+   name:option[1],
+   desc:option[2]
+  });
+ }
+
+ saveData();
+ updateFavoriteButton();
 }
+
+function updateFavoriteButton(){
+ if(selected<0)return;
+
+ const option=shown[selected];
+
+ const exists=favorites.some(x=>
+ x.category===current && x.name===option[1]
+ );
+
+ document.getElementById("favoriteBtn").textContent=
+ exists?"♥ Удалить из избранного":"♡ Добавить в избранное";
+}
+
+function saveHistory(option){
+ history.unshift({
+  category:current,
+  emoji:option[0],
+  name:option[1],
+  desc:option[2],
+  date:new Date().toLocaleString("ru-RU")
+ });
+
+ history=history.slice(0,50);
+
+ saveData();
+}
+
 function goHome(){
-document.getElementById("panel").style.display="none";
-document.getElementById("home").style.display="block";
+ document.getElementById("panel").style.display="none";
+ document.getElementById("home").style.display="block";
 }
+
 function showTab(tab,btn){
-document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
-btn.classList.add("active");
-goHome();
-const extra=document.getElementById("extra");
-if(tab==="home"){extra.innerHTML="";return;}
-const list=tab==="favorites"?favorites:history;
-extra.innerHTML=`<div class="section-title">${tab==="favorites"?"♡ Избранное":"◷ История"}</div>`+(list.length?list.map(x=>`<div class="list-item">${x.category?x.category+" · ":""}${x.name}</div>`).join(""):'<div class="muted">Пока здесь пусто.</div>');
+ document.querySelectorAll(".nav button")
+ .forEach(b=>b.classList.remove("active"));
+
+ btn.classList.add("active");
+
+ goHome();
+
+ const extra=document.getElementById("extra");
+
+ if(tab==="home"){
+  extra.innerHTML="";
+  return;
+ }
+
+ const list=tab==="favorites"?favorites:history;
+
+ const title=tab==="favorites"?"♡ Избранное":"◷ История";
+
+ extra.innerHTML=
+ `<div class="section-title">${title}</div>`+
+ (list.length?
+ list.map((x,i)=>
+ `<div class="list-item">
+ <span>
+ ${x.emoji||""} <strong>${x.name}</strong>
+ <br>
+ <small style="color:#92919f">${x.category||""}</small>
+ </span>
+ ${tab==="favorites"?
+ `<button class="remove-btn" onclick="removeFavorite(${i})">Удалить</button>`:
+ ""}
+ </div>`
+ ).join("")
+ :
+ '<div class="muted">Пока здесь пусто.</div>');
 }
+
+function removeFavorite(i){
+ favorites.splice(i,1);
+ saveData();
+
+ const btn=document.querySelectorAll(".nav button")[1];
+ showTab("favorites",btn);
+}
+
 renderCategories();
+
+if("serviceWorker" in navigator){
+ window.addEventListener("load",()=>{
+  navigator.serviceWorker.register("./service-worker.js")
+  .catch(error=>console.log("Ошибка Service Worker:",error));
+ });
+}
+
 </script>
+
 </body>
 </html>
