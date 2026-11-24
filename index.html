@@ -6,12 +6,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#101016">
 
+<title>Решай за меня</title>
+
 <link rel="manifest" href="./manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
+<link rel="apple-touch-icon" href="./icon-192.png">
+
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Решай за меня">
-
-<title>Решай за меня</title>
 
 <style>
 *{box-sizing:border-box}
@@ -135,7 +139,6 @@ h1{
 
 .option .symbol{font-size:25px}
 .option .info{flex:1}
-
 .option strong{font-size:14px}
 
 .option small{
@@ -329,7 +332,6 @@ footer{
 </div>
 
 <script>
-
 const data={
 
 "Что посмотреть?":[
@@ -401,7 +403,6 @@ const data={
 ["🎵","Открыть новую музыку","Найти любимый трек."],
 ["🧁","Приготовить десерт","Порадовать себя чем-нибудь вкусным."]
 ]
-
 };
 
 const categories=[
@@ -421,9 +422,7 @@ function loadData(key){
  try{
   const value=JSON.parse(localStorage.getItem(key)||"[]");
   return Array.isArray(value)?value:[];
- }catch(e){
-  return [];
- }
+ }catch(e){return [];}
 }
 
 let favorites=loadData("rzm_fav");
@@ -438,31 +437,23 @@ function renderCategories(){
  document.getElementById("categories").innerHTML=
  categories.map(c=>
  `<button class="cat" onclick="openCategory('${c[1]}')">
- <span class="emoji">${c[0]}</span>
- <b>${c[1]}</b>
- </button>`
+ <span class="emoji">${c[0]}</span><b>${c[1]}</b></button>`
  ).join("");
 }
 
 function openCategory(name){
  current=name;
-
  document.getElementById("home").style.display="none";
  document.getElementById("panel").style.display="block";
  document.getElementById("panelTitle").textContent=name;
-
  newOptions();
 }
 
 function newOptions(){
- const source=[...data[current]];
-
- shown=source.sort(()=>Math.random()-.5).slice(0,5);
+ shown=[...data[current]].sort(()=>Math.random()-.5).slice(0,5);
  selected=-1;
-
  document.getElementById("result").style.display="none";
  document.getElementById("favoriteBtn").style.display="none";
-
  renderOptions();
 }
 
@@ -471,33 +462,23 @@ function renderOptions(){
  shown.map((o,i)=>
  `<div class="option ${selected===i?'selected':''}" onclick="selectOption(${i})">
  <span class="symbol">${o[0]}</span>
- <div class="info">
- <strong>${o[1]}</strong>
- <small>${o[2]}</small>
- </div>
- ${selected===i?'✓':''}
+ <div class="info"><strong>${o[1]}</strong>
+ <small>${o[2]}</small></div>${selected===i?'✓':''}
  </div>`
  ).join("");
 }
 
 function selectOption(i){
  selected=i;
-
  renderOptions();
-
  const option=shown[i];
 
  document.getElementById("result").style.display="block";
- document.getElementById("resultName").textContent=
- option[0]+" "+option[1];
-
+ document.getElementById("resultName").textContent=option[0]+" "+option[1];
  document.getElementById("resultDesc").textContent=option[2];
-
  document.getElementById("favoriteBtn").style.display="block";
 
- const exists=favorites.some(x=>
- x.category===current && x.name===option[1]
- );
+ const exists=favorites.some(x=>x.category===current&&x.name===option[1]);
 
  document.getElementById("favoriteBtn").textContent=
  exists?"♥ Удалить из избранного":"♡ Добавить в избранное";
@@ -507,30 +488,21 @@ function selectOption(i){
 
 function decide(){
  if(!shown.length)return;
-
- const i=Math.floor(Math.random()*shown.length);
- selectOption(i);
+ selectOption(Math.floor(Math.random()*shown.length));
 }
 
 function toggleFavorite(){
  if(selected<0)return;
-
  const option=shown[selected];
 
  const index=favorites.findIndex(x=>
- x.category===current && x.name===option[1]
+ x.category===current&&x.name===option[1]
  );
 
- if(index>=0){
-  favorites.splice(index,1);
- }else{
-  favorites.unshift({
-   category:current,
-   emoji:option[0],
-   name:option[1],
-   desc:option[2]
-  });
- }
+ if(index>=0)favorites.splice(index,1);
+ else favorites.unshift({
+  category:current,emoji:option[0],name:option[1],desc:option[2]
+ });
 
  saveData();
  updateFavoriteButton();
@@ -538,11 +510,10 @@ function toggleFavorite(){
 
 function updateFavoriteButton(){
  if(selected<0)return;
-
  const option=shown[selected];
 
  const exists=favorites.some(x=>
- x.category===current && x.name===option[1]
+ x.category===current&&x.name===option[1]
  );
 
  document.getElementById("favoriteBtn").textContent=
@@ -551,15 +522,11 @@ function updateFavoriteButton(){
 
 function saveHistory(option){
  history.unshift({
-  category:current,
-  emoji:option[0],
-  name:option[1],
-  desc:option[2],
-  date:new Date().toLocaleString("ru-RU")
+  category:current,emoji:option[0],name:option[1],
+  desc:option[2],date:new Date().toLocaleString("ru-RU")
  });
 
  history=history.slice(0,50);
-
  saveData();
 }
 
@@ -573,7 +540,6 @@ function showTab(tab,btn){
  .forEach(b=>b.classList.remove("active"));
 
  btn.classList.add("active");
-
  goHome();
 
  const extra=document.getElementById("extra");
@@ -585,33 +551,23 @@ function showTab(tab,btn){
 
  const list=tab==="favorites"?favorites:history;
 
- const title=tab==="favorites"?"♡ Избранное":"◷ История";
-
  extra.innerHTML=
- `<div class="section-title">${title}</div>`+
+ `<div class="section-title">${tab==="favorites"?"♡ Избранное":"◷ История"}</div>`+
  (list.length?
  list.map((x,i)=>
- `<div class="list-item">
- <span>
- ${x.emoji||""} <strong>${x.name}</strong>
- <br>
+ `<div class="list-item"><span>
+ ${x.emoji||""} <strong>${x.name}</strong><br>
  <small style="color:#92919f">${x.category||""}</small>
- </span>
- ${tab==="favorites"?
- `<button class="remove-btn" onclick="removeFavorite(${i})">Удалить</button>`:
- ""}
- </div>`
- ).join("")
- :
- '<div class="muted">Пока здесь пусто.</div>');
+ </span>${tab==="favorites"?
+ `<button class="remove-btn" onclick="removeFavorite(${i})">Удалить</button>`:""}
+ </div>`).join("")
+ :'<div class="muted">Пока здесь пусто.</div>');
 }
 
 function removeFavorite(i){
  favorites.splice(i,1);
  saveData();
-
- const btn=document.querySelectorAll(".nav button")[1];
- showTab("favorites",btn);
+ showTab("favorites",document.querySelectorAll(".nav button")[1]);
 }
 
 renderCategories();
@@ -622,7 +578,6 @@ if("serviceWorker" in navigator){
   .catch(error=>console.log("Ошибка Service Worker:",error));
  });
 }
-
 </script>
 
 </body>
