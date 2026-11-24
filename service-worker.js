@@ -1,13 +1,14 @@
 
-const CACHE_NAME = "reshay-za-menya-v1";
+const CACHE_NAME = "reshay-za-menya-v2";
 
 const FILES_TO_CACHE = [
   "./",
   "./index.html",
-  "./manifest.json"
+  "./manifest.json",
+  "./icon-192.png",
+  "./icon-512.png"
 ];
 
-// Установка Service Worker
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
@@ -18,7 +19,6 @@ self.addEventListener("install", event => {
   self.skipWaiting();
 });
 
-// Активация
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys => {
@@ -33,7 +33,6 @@ self.addEventListener("activate", event => {
   self.clients.claim();
 });
 
-// Работа с запросами
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
@@ -42,10 +41,12 @@ self.addEventListener("fetch", event => {
       .then(response => {
         if (response.ok) {
           const copy = response.clone();
+
           caches.open(CACHE_NAME).then(cache => {
             cache.put(event.request, copy);
           });
         }
+
         return response;
       })
       .catch(() => {
