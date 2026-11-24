@@ -9,9 +9,9 @@
 <title>Решай за меня</title>
 
 <link rel="manifest" href="./manifest.json">
-<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
-<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./Icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./Icon-512.png">
+<link rel="apple-touch-icon" href="./Icon-192.png">
 
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -19,556 +19,224 @@
 
 <style>
 *{box-sizing:border-box}
-
 body{
  margin:0;
  background:#101016;
  color:#fff;
- font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+ min-height:100vh;
 }
-
-.app{
- max-width:650px;
- margin:auto;
- padding:25px 18px 50px
-}
-
 header{
- display:flex;
- justify-content:space-between;
- align-items:center;
- margin-bottom:35px
+ padding:30px 20px 20px;
+ text-align:center;
 }
-
-.logo{
- font-size:21px;
- font-weight:800;
- letter-spacing:-.7px
-}
-
-.logo span{color:#a78bfa}
-
-.tag{
- font-size:11px;
- color:#a78bfa;
- background:#29213b;
- padding:7px 11px;
- border-radius:20px
-}
-
 h1{
  font-size:30px;
- line-height:1.15;
- margin:0 0 10px;
- letter-spacing:-1px
+ margin:0 0 8px;
 }
-
-.sub{
- color:#92919f;
- font-size:14px;
- line-height:1.5;
- margin-bottom:27px
-}
-
-.section-title{
- font-size:15px;
- margin:25px 0 14px
-}
-
+.subtitle{color:#aaa;font-size:14px}
+main{max-width:600px;margin:auto;padding:15px}
+.section-title{font-size:19px;margin:20px 0 15px}
 .categories{
  display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:11px
+ grid-template-columns:1fr 1fr;
+ gap:12px;
 }
-
-.cat{
- background:#1b1b25;
- border:1px solid #292936;
- border-radius:17px;
- padding:17px 14px;
+.category{
+ background:#1b1b26;
+ border:1px solid #303040;
+ border-radius:18px;
+ padding:20px 12px;
  color:white;
- text-align:left;
+ text-align:center;
+ font-size:16px;
  cursor:pointer;
- min-height:105px
 }
-
-.cat:active,.cat.active{
- border-color:#9875f5;
- background:#272037
-}
-
-.emoji{
- font-size:26px;
- display:block;
- margin-bottom:12px
-}
-
-.cat b{font-size:14px}
-
+.category:active{transform:scale(.97)}
+.category .emoji{font-size:30px;display:block;margin-bottom:10px}
 .panel{
- margin-top:25px;
- background:#1b1b25;
- border:1px solid #30303c;
+ background:#1b1b26;
+ border:1px solid #303040;
  border-radius:20px;
  padding:18px;
- display:none
+ margin-top:20px;
 }
-
-.panel h2{
- font-size:20px;
- margin:0 0 6px
-}
-
-.muted{
- font-size:13px;
- color:#92919f;
- margin-bottom:17px
-}
-
+.hidden{display:none}
 .option{
- background:#252531;
- border:1px solid #353542;
+ background:#262635;
  border-radius:13px;
- padding:14px;
- margin:9px 0;
- display:flex;
- align-items:center;
- gap:12px;
- cursor:pointer
+ padding:15px;
+ margin:10px 0;
+ cursor:pointer;
+ border:1px solid transparent;
 }
-
-.option .symbol{font-size:25px}
-.option .info{flex:1}
-.option strong{font-size:14px}
-
-.option small{
- display:block;
- color:#aaa9b5;
- font-size:12px;
- margin-top:5px;
- line-height:1.4
-}
-
-.option.selected{
- border-color:#a78bfa;
- background:#302643
-}
-
-button{font-family:inherit}
-
-.main-btn{
- width:100%;
- padding:16px;
+.option.selected{border-color:#a36cff;background:#302541}
+button{
  border:0;
  border-radius:14px;
- background:linear-gradient(110deg,#8056e9,#a36bf4);
- color:white;
+ padding:15px 18px;
  font-size:15px;
- font-weight:750;
- margin-top:13px;
- cursor:pointer
+ font-weight:600;
+ cursor:pointer;
 }
-
+.primary{
+ width:100%;
+ background:linear-gradient(135deg,#9a5cff,#7040d8);
+ color:white;
+ margin-top:12px;
+}
 .secondary{
+ background:#303040;
+ color:white;
  width:100%;
- padding:13px;
- border:1px solid #41404e;
- border-radius:13px;
- background:transparent;
- color:#ddd;
- font-size:14px;
  margin-top:10px;
- cursor:pointer
 }
-
-.favorite-btn{
- width:100%;
- padding:12px;
- border:1px solid #625080;
- border-radius:13px;
- background:#272037;
- color:#d8c7ff;
- font-size:14px;
- margin-top:10px;
- cursor:pointer
-}
-
 .result{
- display:none;
- background:#302643;
- border:1px solid #a78bfa;
- border-radius:15px;
- padding:17px;
- margin-top:15px
+ text-align:center;
+ padding:20px 5px;
 }
-
-.result small{color:#c4b5fd}
-
-.result h3{
- font-size:21px;
- margin:8px 0
-}
-
+.result h2{font-size:24px}
+.result p{color:#ccc;line-height:1.5}
 .nav{
  display:flex;
- gap:9px;
- margin-top:28px
+ gap:10px;
+ margin-top:20px;
 }
-
-.nav button{
- flex:1;
- padding:12px 5px;
- background:#1b1b25;
- border:1px solid #30303c;
- border-radius:12px;
- color:#aaa;
- font-size:12px
-}
-
-.nav button.active{
- color:#fff;
- border-color:#9875f5
-}
-
-.list-item{
- padding:13px;
- background:#1b1b25;
- border-radius:12px;
- margin:9px 0;
- font-size:14px;
- display:flex;
- align-items:center;
- gap:10px
-}
-
-.list-item span{flex:1}
-
-.remove-btn{
- background:#30243c;
- border:0;
- color:#d7baff;
- border-radius:8px;
- padding:8px 10px;
- cursor:pointer
-}
-
-footer{
- text-align:center;
- color:#666;
- font-size:11px;
- margin-top:35px
-}
-
-@media(min-width:500px){
- .categories{grid-template-columns:repeat(3,1fr)}
-}
+.nav button{flex:1}
+.small-title{font-size:13px;color:#aaa;margin-top:25px}
 </style>
 </head>
 
 <body>
-
-<div class="app">
-
 <header>
- <div class="logo">Решай <span>за меня</span></div>
- <div class="tag">ТВОЙ ПОМОЩНИК</div>
+ <h1>Решай за меня</h1>
+ <div class="subtitle">Меньше сомнений — больше действий</div>
 </header>
 
-<h1>Что будем делать<br>сегодня?</h1>
+<main>
+ <section id="home">
+  <div class="section-title">Что будем решать?</div>
+  <div class="categories" id="categories"></div>
+  <div class="nav">
+   <button class="secondary" onclick="showFavorites()">❤️ Избранное</button>
+   <button class="secondary" onclick="showHistory()">🕘 История</button>
+  </div>
+ </section>
 
-<div class="sub">
- Не трать время на раздумья. Выбери направление — а мы поможем определиться.
-</div>
+ <section id="choices" class="hidden">
+  <div class="section-title" id="categoryTitle"></div>
+  <div id="options"></div>
+  <button class="primary" onclick="chooseRandom()">🎲 Выбери за меня!</button>
+  <button class="secondary" onclick="newOptions()">🔄 Другие варианты</button>
+  <button class="secondary" onclick="goHome()">← На главную</button>
+ </section>
 
-<div id="home">
- <div class="section-title">Выбери категорию</div>
- <div class="categories" id="categories"></div>
-</div>
+ <section id="result" class="hidden panel">
+  <div class="result">
+   <div style="font-size:45px">✨</div>
+   <h2>Мой выбор</h2>
+   <p id="resultText"></p>
+   <button class="primary" onclick="saveFavorite()">❤️ В избранное</button>
+   <button class="secondary" onclick="chooseRandom()">🎲 Ещё раз</button>
+   <button class="secondary" onclick="goHome()">На главную</button>
+  </div>
+ </section>
 
-<div class="panel" id="panel">
-
- <h2 id="panelTitle"></h2>
-
- <div class="muted">
- Вот несколько идей для тебя. Выбирай или доверься нам.
- </div>
-
- <div id="options"></div>
-
- <div class="result" id="result">
-  <small>✦ МЫ ПРИНЯЛИ РЕШЕНИЕ</small>
-  <h3 id="resultName"></h3>
-  <div id="resultDesc" class="muted"></div>
- </div>
-
- <button class="main-btn" onclick="decide()">
-  🎲 Выбери за меня!
- </button>
-
- <button class="favorite-btn" id="favoriteBtn" onclick="toggleFavorite()" style="display:none">
-  ♡ Добавить в избранное
- </button>
-
- <button class="secondary" onclick="newOptions()">
-  ↻ Другие варианты
- </button>
-
- <button class="secondary" onclick="goHome()">
-  ← Все категории
- </button>
-
-</div>
-
-<div class="nav">
- <button class="active" onclick="showTab('home',this)">⌂ Главная</button>
- <button onclick="showTab('favorites',this)">♡ Избранное</button>
- <button onclick="showTab('history',this)">◷ История</button>
-</div>
-
-<div id="extra"></div>
-
-<footer>Решай за меня · Меньше сомнений — больше действий</footer>
-
-</div>
+ <section id="saved" class="hidden">
+  <div class="section-title" id="savedTitle"></div>
+  <div id="savedList"></div>
+  <button class="secondary" onclick="goHome()">← На главную</button>
+ </section>
+</main>
 
 <script>
-const data={
-
-"Что посмотреть?":[
-["🎬","Комедию","Чтобы просто расслабиться и посмеяться."],
-["🚀","Фантастику","Погрузиться в другой мир."],
-["🕵️","Детектив","Попробовать разгадать загадку."],
-["❤️","Мелодраму","Для спокойного вечера."],
-["🔥","Боевик","Динамика и яркие впечатления."],
-["👻","Ужасы","Немного острых ощущений."],
-["🌍","Документальный фильм","Узнать что-то новое."],
-["😂","Лёгкий сериал","Для уютного вечера."],
-["🧙","Приключения","Отправиться в необычное путешествие."]
-],
-
-"Что приготовить?":[
-["🍝","Паста с курицей","Сытный и простой ужин."],
-["🍕","Домашняя пицца","Любимая классика."],
-["🥔","Картофель с мясом","Домашнее горячее блюдо."],
-["🍜","Лапша с овощами","Быстрый вариант на каждый день."],
-["🥗","Салат с тунцом","Лёгкий и питательный вариант."],
-["🍳","Омлет с овощами","Простой завтрак или ужин."],
-["🍲","Суп с фрикадельками","Тёплая домашняя еда."],
-["🥞","Блины","Подойдут и для завтрака, и для перекуса."],
-["🍚","Рис с курицей","Просто, вкусно и сытно."]
-],
-
-"Куда сходить?":[
-["🌳","В парк","Прогуляться и подышать воздухом."],
-["☕","В уютную кофейню","Немного отдохнуть."],
-["🎳","В боулинг","Активно провести время."],
-["🎬","В кино","Посмотреть фильм на большом экране."],
-["🏛️","В музей","Открыть для себя что-то новое."],
-["🍽️","В ресторан","Устроить приятный вечер."],
-["🌊","На природу","Сменить обстановку."],
-["🛍️","На прогулку по магазинам","Посмотреть интересные вещи."],
-["🎤","В караоке","Хорошо провести вечер."]
-],
-
-"Чем заняться?":[
-["🎮","Поиграть в игру","Немного отвлечься."],
-["📚","Почитать книгу","Провести время с пользой."],
-["🎧","Послушать музыку","Устроить музыкальную паузу."],
-["🏃","Сходить на прогулку","Размяться и проветрить голову."],
-["🍿","Посмотреть видео","Найти что-нибудь интересное."],
-["🧩","Решить головоломку","Проверить сообразительность."],
-["🧹","Навести порядок","Освободить пространство."],
-["🎨","Попробовать творчество","Сделать что-нибудь своими руками."],
-["🧘","Отдохнуть","Ничего не делать и восстановиться."]
-],
-
-"Что подарить?":[
-["🎧","Наушники","Практичный подарок для любителя музыки."],
-["☕","Набор для кофе","Для приятных домашних утр."],
-["🌷","Цветы","Классический знак внимания."],
-["📖","Интересную книгу","Для любознательного человека."],
-["🎁","Подарочный сертификат","Пусть человек выберет сам."],
-["🕯️","Ароматическую свечу","Для уютной атмосферы."],
-["⌚","Аксессуар","Стильная и полезная вещь."],
-["🍫","Набор сладостей","Маленькая приятная радость."],
-["🖼️","Фотокнигу","Подарок с личными воспоминаниями."]
-],
-
-"Случайный выбор":[
-["🎲","Устроить вечер кино","Выбрать фильм и приготовить вкусности."],
-["🚶","Выйти погулять","Немного сменить обстановку."],
-["🍕","Заказать любимую еду","Устроить вкусный вечер."],
-["🎮","Поиграть","Найти интересную игру."],
-["📞","Позвонить близкому","Поговорить и узнать новости."],
-["🎵","Открыть новую музыку","Найти любимый трек."],
-["🧁","Приготовить десерт","Порадовать себя чем-нибудь вкусным."]
-]
-};
-
-const categories=[
-["🎬","Что посмотреть?"],
-["🍽️","Что приготовить?"],
-["📍","Куда сходить?"],
-["🎮","Чем заняться?"],
-["🎁","Что подарить?"],
-["🎲","Случайный выбор"]
+const data=[
+ {name:"Что посмотреть?",emoji:"🎬",items:["Посмотреть интересный фильм","Выбрать захватывающий сериал","Посмотреть комедию","Найти хороший детектив","Посмотреть фантастику","Выбрать приключенческий фильм","Посмотреть документальный фильм"]},
+ {name:"Что приготовить?",emoji:"🍕",items:["Приготовить пасту","Сделать домашнюю пиццу","Приготовить картошку с мясом","Сделать вкусный салат","Приготовить омлет","Попробовать новый рецепт","Приготовить что-нибудь необычное"]},
+ {name:"Куда сходить?",emoji:"📍",items:["Сходить в кафе","Прогуляться в парке","Сходить в кино","Посетить новое место","Устроить небольшую поездку","Сходить в торговый центр","Провести время на природе"]},
+ {name:"Чем заняться?",emoji:"🎯",items:["Послушать любимую музыку","Посмотреть интересное видео","Заняться спортом","Поиграть в игру","Почитать книгу","Навести порядок","Попробовать новое хобби"]},
+ {name:"Что подарить?",emoji:"🎁",items:["Подарить впечатление","Выбрать полезный аксессуар","Подарить сертификат","Подготовить необычный сюрприз","Подарить что-то сделанное своими руками","Выбрать красивую вещь","Организовать совместный отдых"]},
+ {name:"Случайный выбор",emoji:"🎲",items:["Орёл","Решка","Первый вариант","Второй вариант","Сделать это сегодня","Отложить на завтра","Попробовать что-то новое"]}
 ];
 
-let current="";
-let shown=[];
-let selected=-1;
+let current=null;
+let selected=null;
+let currentOptions=[];
+let lastResult=null;
 
-function loadData(key){
- try{
-  const value=JSON.parse(localStorage.getItem(key)||"[]");
-  return Array.isArray(value)?value:[];
- }catch(e){return [];}
-}
-
-let favorites=loadData("rzm_fav");
-let history=loadData("rzm_hist");
-
-function saveData(){
- localStorage.setItem("rzm_fav",JSON.stringify(favorites));
- localStorage.setItem("rzm_hist",JSON.stringify(history));
+function show(id){
+ ["home","choices","result","saved"].forEach(x=>document.getElementById(x).classList.add("hidden"));
+ document.getElementById(id).classList.remove("hidden");
 }
 
 function renderCategories(){
- document.getElementById("categories").innerHTML=
- categories.map(c=>
- `<button class="cat" onclick="openCategory('${c[1]}')">
- <span class="emoji">${c[0]}</span><b>${c[1]}</b></button>`
+ document.getElementById("categories").innerHTML=data.map((c,i)=>
+ `<div class="category" onclick="openCategory(${i})"><span class="emoji">${c.emoji}</span>${c.name}</div>`
  ).join("");
 }
 
-function openCategory(name){
- current=name;
- document.getElementById("home").style.display="none";
- document.getElementById("panel").style.display="block";
- document.getElementById("panelTitle").textContent=name;
+function openCategory(i){
+ current=i;
+ selected=null;
  newOptions();
+ document.getElementById("categoryTitle").textContent=data[i].name;
+ show("choices");
 }
 
 function newOptions(){
- shown=[...data[current]].sort(()=>Math.random()-.5).slice(0,5);
- selected=-1;
- document.getElementById("result").style.display="none";
- document.getElementById("favoriteBtn").style.display="none";
- renderOptions();
-}
-
-function renderOptions(){
- document.getElementById("options").innerHTML=
- shown.map((o,i)=>
- `<div class="option ${selected===i?'selected':''}" onclick="selectOption(${i})">
- <span class="symbol">${o[0]}</span>
- <div class="info"><strong>${o[1]}</strong>
- <small>${o[2]}</small></div>${selected===i?'✓':''}
- </div>`
+ const items=[...data[current].items];
+ currentOptions=[];
+ while(currentOptions.length<5&&items.length){
+  const n=Math.floor(Math.random()*items.length);
+  currentOptions.push(items.splice(n,1)[0]);
+ }
+ selected=null;
+ document.getElementById("options").innerHTML=currentOptions.map((item,i)=>
+ `<div class="option" onclick="selectOption(${i})" id="option${i}">${item}</div>`
  ).join("");
 }
 
 function selectOption(i){
  selected=i;
- renderOptions();
- const option=shown[i];
-
- document.getElementById("result").style.display="block";
- document.getElementById("resultName").textContent=option[0]+" "+option[1];
- document.getElementById("resultDesc").textContent=option[2];
- document.getElementById("favoriteBtn").style.display="block";
-
- const exists=favorites.some(x=>x.category===current&&x.name===option[1]);
-
- document.getElementById("favoriteBtn").textContent=
- exists?"♥ Удалить из избранного":"♡ Добавить в избранное";
-
- saveHistory(option);
+ document.querySelectorAll(".option").forEach((el,n)=>el.classList.toggle("selected",n===i));
+ lastResult=currentOptions[i];
 }
 
-function decide(){
- if(!shown.length)return;
- selectOption(Math.floor(Math.random()*shown.length));
+function chooseRandom(){
+ if(!currentOptions.length)return;
+ const index=Math.floor(Math.random()*currentOptions.length);
+ lastResult=currentOptions[index];
+ saveHistory(lastResult);
+ document.getElementById("resultText").textContent=lastResult;
+ show("result");
 }
 
-function toggleFavorite(){
- if(selected<0)return;
- const option=shown[selected];
-
- const index=favorites.findIndex(x=>
- x.category===current&&x.name===option[1]
- );
-
- if(index>=0)favorites.splice(index,1);
- else favorites.unshift({
-  category:current,emoji:option[0],name:option[1],desc:option[2]
- });
-
- saveData();
- updateFavoriteButton();
+function saveHistory(value){
+ let h=JSON.parse(localStorage.getItem("history")||"[]");
+ h.unshift(value);
+ localStorage.setItem("history",JSON.stringify(h.slice(0,30)));
 }
 
-function updateFavoriteButton(){
- if(selected<0)return;
- const option=shown[selected];
-
- const exists=favorites.some(x=>
- x.category===current&&x.name===option[1]
- );
-
- document.getElementById("favoriteBtn").textContent=
- exists?"♥ Удалить из избранного":"♡ Добавить в избранное";
+function saveFavorite(){
+ if(!lastResult)return;
+ let f=JSON.parse(localStorage.getItem("favorites")||"[]");
+ if(!f.includes(lastResult))f.unshift(lastResult);
+ localStorage.setItem("favorites",JSON.stringify(f));
+ alert("Добавлено в избранное!");
 }
 
-function saveHistory(option){
- history.unshift({
-  category:current,emoji:option[0],name:option[1],
-  desc:option[2],date:new Date().toLocaleString("ru-RU")
- });
+function showFavorites(){showSaved("Избранное","favorites")}
+function showHistory(){showSaved("История","history")}
 
- history=history.slice(0,50);
- saveData();
+function showSaved(title,key){
+ const items=JSON.parse(localStorage.getItem(key)||"[]");
+ document.getElementById("savedTitle").textContent=title;
+ document.getElementById("savedList").innerHTML=items.length?
+ items.map(x=>`<div class="option">${x}</div>`).join(""):"<p>Пока здесь пусто.</p>";
+ show("saved");
 }
 
-function goHome(){
- document.getElementById("panel").style.display="none";
- document.getElementById("home").style.display="block";
-}
-
-function showTab(tab,btn){
- document.querySelectorAll(".nav button")
- .forEach(b=>b.classList.remove("active"));
-
- btn.classList.add("active");
- goHome();
-
- const extra=document.getElementById("extra");
-
- if(tab==="home"){
-  extra.innerHTML="";
-  return;
- }
-
- const list=tab==="favorites"?favorites:history;
-
- extra.innerHTML=
- `<div class="section-title">${tab==="favorites"?"♡ Избранное":"◷ История"}</div>`+
- (list.length?
- list.map((x,i)=>
- `<div class="list-item"><span>
- ${x.emoji||""} <strong>${x.name}</strong><br>
- <small style="color:#92919f">${x.category||""}</small>
- </span>${tab==="favorites"?
- `<button class="remove-btn" onclick="removeFavorite(${i})">Удалить</button>`:""}
- </div>`).join("")
- :'<div class="muted">Пока здесь пусто.</div>');
-}
-
-function removeFavorite(i){
- favorites.splice(i,1);
- saveData();
- showTab("favorites",document.querySelectorAll(".nav button")[1]);
-}
+function goHome(){show("home")}
 
 renderCategories();
 
@@ -579,6 +247,5 @@ if("serviceWorker" in navigator){
  });
 }
 </script>
-
 </body>
 </html>
