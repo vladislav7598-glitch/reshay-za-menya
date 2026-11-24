@@ -333,9 +333,12 @@ function showResult(title,name,description){
 }
 function repeatChoice(){
  if(screen==="cookResults")randomDishFromResults();
+ else if(screen==="cookGroups")randomDishFromGroup();
+ else if(screen==="cook")randomDish();
  else if(screen==="catalog")randomMovie(watchType,selectedGenre);
  else if(screen==="generic")randomGeneric();
  else renderHome();
+}
 }
 function toggleSaved(name){
  if(saved.includes(name))saved=saved.filter(x=>x!==name);
