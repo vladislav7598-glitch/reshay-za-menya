@@ -3,45 +3,59 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#101016">
 <link rel="manifest" href="./manifest.json">
 <title>Решай за меня</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#101016;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-button,input{font:inherit}
+button,input,select{font:inherit}
 button{cursor:pointer}
-.app{max-width:600px;margin:auto;padding:24px 18px 50px}
-header{text-align:center;padding:22px 0 28px}
-h1{font-size:30px;margin:0 0 8px}
-.subtitle{color:#aaa;font-size:14px}
-h2{font-size:21px;margin:25px 0 15px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.category{background:#1b1b26;border:1px solid #30303e;border-radius:17px;padding:19px 13px;color:white;text-align:left;min-height:105px}
-.category:active,.action:active{transform:scale(.98)}
-.category .emoji{font-size:25px;display:block;margin-bottom:10px}
-.category strong{font-size:15px}
+.app{max-width:650px;margin:auto;padding:20px 16px 45px}
+header{text-align:center;padding:20px 0 25px}
+h1{font-size:29px;margin:0 0 8px}
+.subtitle,.muted{color:#999;font-size:13px}
+h2{font-size:21px;margin:22px 0 14px}
+h3{font-size:17px;margin:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.category{background:#1c1c29;border:1px solid #30303e;border-radius:16px;padding:17px 12px;color:white;text-align:left;min-height:100px}
+.category span{display:block;font-size:25px;margin-bottom:10px}
+.category strong{font-size:14px}
+.action{background:#7953d2;color:white;border:0;border-radius:12px;padding:12px 15px;font-weight:650}
+.secondary{background:#292938;border:1px solid #414151;color:#fff}
+.back{background:#292938;color:white;border:0;border-radius:11px;padding:10px 14px}
+.row{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.row>*{flex:1}
 .panel{display:none}
 .panel.active{display:block}
-.topline{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.back{background:#252532;color:white;border:0;border-radius:12px;padding:11px 15px}
-.options{display:grid;gap:10px;margin:20px 0}
-.option{background:#1b1b26;border:1px solid #30303e;border-radius:14px;padding:15px;text-align:left;color:white}
-.option.selected{border:2px solid #a879ff;background:#292139}
-.action{border:0;border-radius:13px;padding:14px 16px;font-weight:700;color:white;background:#7650cf}
-.action.secondary{background:#292938;border:1px solid #414151}
-.actions{display:flex;gap:9px;flex-wrap:wrap}
-.result{background:#251d36;border:1px solid #8e62e4;border-radius:17px;padding:20px;margin:18px 0;text-align:center;font-size:19px;min-height:65px}
-.inputrow{display:flex;gap:8px;margin:14px 0}
-.inputrow input{min-width:0;flex:1;background:#1b1b26;border:1px solid #414151;border-radius:12px;padding:13px;color:white}
-.small{font-size:13px;color:#aaa;margin:12px 0}
-.saveditem{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#1b1b26;padding:12px;border-radius:12px;margin:8px 0}
-.delete{background:#48252b;color:#ffaaaa;border:0;border-radius:9px;padding:8px 11px}
-.tabs{display:flex;gap:8px;margin:25px 0}
+.topline{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.topline strong{font-size:18px}
+.tabs{display:flex;gap:8px;margin:20px 0}
 .tabs button{flex:1}
-.empty{color:#888;text-align:center;padding:25px 5px}
-footer{text-align:center;color:#666;font-size:12px;margin-top:35px}
+.options{display:grid;gap:9px;margin:18px 0}
+.option{background:#1c1c29;border:1px solid #30303e;border-radius:13px;padding:14px;text-align:left;color:white}
+.option.selected{border:2px solid #a879ff;background:#292139}
+.result{background:#251d36;border:1px solid #7953d2;border-radius:15px;padding:18px;text-align:center;margin:15px 0}
+.inputrow{display:flex;gap:8px;margin:12px 0}
+input,select{background:#1c1c29;color:white;border:1px solid #414151;border-radius:11px;padding:12px;min-width:0}
+.inputrow input{flex:1}
+.saveditem{display:flex;justify-content:space-between;gap:10px;align-items:center;background:#1c1c29;padding:12px;border-radius:12px;margin:8px 0}
+.delete{background:#48252b;color:#ffaaaa;border:0;border-radius:9px;padding:8px 10px}
+.empty{text-align:center;color:#888;padding:25px}
+.movie-controls{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:15px 0}
+.movie-controls input{grid-column:1/-1;width:100%}
+.movie-list{display:grid;gap:12px;margin-top:16px}
+.movie{display:flex;gap:13px;background:#1c1c29;border:1px solid #30303e;border-radius:15px;padding:12px}
+.poster{width:82px;min-width:82px;height:112px;border-radius:10px;background:linear-gradient(145deg,#563c83,#20202c);display:flex;align-items:center;justify-content:center;text-align:center;font-size:24px;font-weight:bold;color:#eee;padding:5px}
+.movie-info{min-width:0;flex:1}
+.movie-info h3{font-size:15px;line-height:1.3;margin:2px 0 6px}
+.movie-meta{font-size:11px;color:#b5a0e8;margin-bottom:7px}
+.movie-desc{font-size:12px;line-height:1.45;color:#bbb}
+.movie-actions{display:flex;gap:7px;margin-top:10px}
+.movie-actions button{font-size:11px;padding:7px 9px}
+.badge{display:inline-block;background:#30273f;color:#d5bfff;border-radius:7px;padding:4px 7px;font-size:10px;margin:3px 3px 0 0}
+footer{text-align:center;color:#666;font-size:12px;margin-top:30px}
 </style>
 </head>
 <body>
@@ -55,9 +69,10 @@ footer{text-align:center;color:#666;font-size:12px;margin-top:35px}
 <h2>Что выбираем?</h2>
 <div class="grid" id="categories"></div>
 <div class="tabs">
+<button class="action secondary" onclick="openCatalog()">🎬 Каталог кино</button>
 <button class="action secondary" onclick="showSaved('favorites')">★ Избранное</button>
-<button class="action secondary" onclick="showSaved('history')">◷ История</button>
 </div>
+<button class="action secondary" style="width:100%" onclick="showSaved('history')">◷ История</button>
 </div>
 
 <div id="game" class="panel">
@@ -66,23 +81,62 @@ footer{text-align:center;color:#666;font-size:12px;margin-top:35px}
 <strong id="categoryTitle"></strong>
 </div>
 <div id="options" class="options"></div>
-<div class="actions">
+<div class="row">
 <button class="action" onclick="choose()">Выбери за меня!</button>
 <button class="action secondary" onclick="newOptions()">Другие варианты</button>
 </div>
 <div id="result" class="result">Выбери один из вариантов</div>
-<div class="actions">
+<div class="row">
 <button class="action secondary" onclick="addFavorite()">★ В избранное</button>
 <button class="action secondary" onclick="newOptions()">Ещё раз</button>
 </div>
-
 <h2>Свои варианты</h2>
-<div class="small">Добавь собственную идею — она сохранится и попадёт в общий список выбора.</div>
+<div class="muted">Добавляй собственные идеи в эту категорию.</div>
 <div class="inputrow">
-<input id="customInput" maxlength="100" placeholder="Например, посмотреть Интерстеллар">
+<input id="customInput" maxlength="100" placeholder="Напиши свой вариант">
 <button class="action" onclick="addCustom()">Добавить</button>
 </div>
 <div id="customList"></div>
+</div>
+
+<div id="catalog" class="panel">
+<div class="topline">
+<button class="back" onclick="goHome()">← Назад</button>
+<strong>Каталог кино</strong>
+</div>
+<div class="tabs">
+<button class="action" id="filmsTab" onclick="setType('Фильм')">Фильмы</button>
+<button class="action secondary" id="seriesTab" onclick="setType('Сериал')">Сериалы</button>
+</div>
+<div class="movie-controls">
+<input id="movieSearch" placeholder="Поиск по названию..." oninput="renderMovies()">
+<select id="genreFilter" onchange="renderMovies()">
+<option value="">Все жанры</option>
+<option>Драма</option><option>Комедия</option><option>Фантастика</option>
+<option>Боевик</option><option>Триллер</option><option>Детектив</option>
+<option>Приключения</option><option>Криминал</option><option>Мелодрама</option>
+<option>История</option><option>Фэнтези</option><option>Ужасы</option>
+</select>
+<select id="countryFilter" onchange="renderMovies()">
+<option value="">Все страны</option>
+<option value="Россия">Россия</option>
+<option value="Зарубежное">Зарубежное</option>
+</select>
+</div>
+<div class="row">
+<button class="action" onclick="randomMovie()">🎲 Выбери за меня</button>
+<button class="action secondary" onclick="resetFilters()">Сбросить фильтры</button>
+</div>
+<div class="muted" id="movieCount" style="margin-top:13px"></div>
+<div id="movieList" class="movie-list"></div>
+</div>
+
+<div id="detail" class="panel">
+<div class="topline">
+<button class="back" onclick="backToCatalog()">← К каталогу</button>
+<strong>О произведении</strong>
+</div>
+<div id="detailContent"></div>
 </div>
 
 <div id="saved" class="panel">
@@ -98,142 +152,212 @@ footer{text-align:center;color:#666;font-size:12px;margin-top:35px}
 
 <script>
 const data={
-"Что посмотреть?":["Посмотреть интересный фильм","Выбрать захватывающий сериал","Посмотреть комедию","Найти хороший детектив","Посмотреть фантастику","Выбрать приключенческий фильм","Посмотреть документальный фильм","Посмотреть триллер","Найти фильм ужасов","Посмотреть романтическую комедию","Выбрать боевик","Посмотреть исторический фильм","Найти фильм про космос","Посмотреть мультфильм","Выбрать семейное кино","Посмотреть фильм на реальных событиях","Найти старую классику","Посмотреть фильм с неожиданной концовкой","Выбрать короткий сериал","Посмотреть криминальную драму","Найти фильм про путешествия","Посмотреть анимационный фильм","Выбрать военную драму","Посмотреть приключения","Дать шанс фильму, о котором ничего не знаешь"],
+"Что посмотреть?":["Посмотреть интересный фильм","Выбрать захватывающий сериал","Посмотреть комедию","Найти хороший детектив","Посмотреть фантастику","Выбрать приключенческий фильм","Посмотреть документальный фильм","Посмотреть триллер","Найти фильм ужасов","Посмотреть романтическую комедию","Выбрать боевик","Посмотреть исторический фильм","Найти фильм про космос","Посмотреть мультфильм","Выбрать семейное кино","Посмотреть фильм на реальных событиях","Найти старую классику","Посмотреть фильм с неожиданной концовкой","Выбрать короткий сериал","Посмотреть криминальную драму","Найти фильм про путешествия","Посмотреть анимационный фильм","Выбрать военную драму","Посмотреть приключения","Дать шанс неизвестному фильму"],
 "Что приготовить?":["Приготовить пасту","Сделать домашнюю пиццу","Приготовить картошку с мясом","Сделать вкусный салат","Приготовить омлет","Попробовать новый рецепт","Приготовить что-нибудь необычное","Сделать домашние бургеры","Приготовить курицу в духовке","Сделать сырники","Приготовить суп","Сделать горячие бутерброды","Приготовить плов","Сделать блины","Приготовить запечённую рыбу","Сделать шаурму дома","Приготовить картофельное пюре","Сделать овощное рагу","Приготовить домашнюю лапшу","Сделать тёплый салат","Приготовить котлеты","Сделать запеканку","Приготовить рис с овощами","Сделать домашний десерт","Приготовить любимое блюдо детства"],
 "Куда сходить?":["Сходить в кафе","Прогуляться в парке","Сходить в кино","Посетить новое место","Устроить небольшую поездку","Сходить в торговый центр","Провести время на природе","Посетить музей","Сходить в боулинг","Попробовать новый ресторан","Сходить на выставку","Посетить красивую набережную","Сходить в бассейн","Устроить прогулку по центру города","Посетить парк развлечений","Сходить в кофейню","Отправиться за город","Посетить интересное мероприятие","Сходить в книжный магазин","Устроить фотопрогулку","Посетить зоопарк","Сходить на каток","Погулять в новом районе","Сходить в театр","Найти необычное место поблизости"],
 "Чем заняться?":["Послушать любимую музыку","Посмотреть интересное видео","Заняться спортом","Поиграть в игру","Почитать книгу","Навести порядок","Попробовать новое хобби","Посмотреть обучающий ролик","Приготовить что-нибудь вкусное","Позвонить старому другу","Сделать небольшую тренировку","Погулять на свежем воздухе","Разобрать фотографии","Послушать подкаст","Научиться чему-то новому","Посмотреть смешные видео","Устроить вечер настольных игр","Нарисовать что-нибудь","Составить планы на неделю","Сделать перестановку","Посмотреть старые фотографии","Попробовать медитацию","Устроить цифровой детокс","Начать интересный проект","Просто отдохнуть без телефона"],
 "Что подарить?":["Подарить впечатление","Выбрать полезный аксессуар","Подарить сертификат","Подготовить необычный сюрприз","Подарить что-то сделанное своими руками","Выбрать красивую вещь","Организовать совместный отдых","Подарить книгу","Выбрать оригинальную кружку","Подарить набор сладостей","Подарить настольную игру","Выбрать стильный аксессуар","Подарить комнатное растение","Сделать фотокнигу","Подарить билет на мероприятие","Выбрать хороший парфюм","Подарить мягкий плед","Собрать подарочную корзину","Подарить беспроводные наушники","Выбрать необычный светильник","Подарить любимое угощение","Сделать персональный подарок","Подарить набор для хобби","Организовать небольшой праздник","Подарить совместное приключение"],
-"Случайный выбор?":["Орёл","Решка","Первый вариант","Второй вариант","Сделать это сегодня","Отложить на завтра","Попробовать что-то новое","Сказать «да»","Сказать «нет»","Выбрать левый вариант","Выбрать правый вариант","Начать прямо сейчас","Сделать перерыв","Рискнуть и попробовать","Выбрать самый простой путь","Выбрать самый необычный путь","Довериться интуиции","Спросить совета","Принять решение за минуту","Устроить себе выходной","Сделать приятное близкому","Выйти на прогулку","Попробовать что-то впервые","Закончить начатое дело","Выбрать случайный вариант"]
+"Случайный выбор":["Орёл","Решка","Первый вариант","Второй вариант","Сделать это сегодня","Отложить на завтра","Попробовать что-то новое","Сказать «да»","Сказать «нет»","Выбрать левый вариант","Выбрать правый вариант","Начать прямо сейчас","Сделать перерыв","Рискнуть и попробовать","Выбрать самый простой путь","Выбрать самый необычный путь","Довериться интуиции","Спросить совета","Принять решение за минуту","Устроить себе выходной","Сделать приятное близкому","Выйти на прогулку","Попробовать что-то впервые","Закончить начатое дело","Выбрать случайный вариант"]
 };
+
+const movies=[
+{id:1,title:"Брат",type:"Фильм",year:1997,country:"Россия",genre:"Криминал",desc:"Молодой Данила Багров приезжает в Петербург и оказывается втянут в криминальную жизнь большого города."},
+{id:2,title:"Брат 2",type:"Фильм",year:2000,country:"Россия",genre:"Боевик",desc:"Данила Багров отправляется в США, чтобы помочь старому другу и разобраться в несправедливости."},
+{id:3,title:"Легенда №17",type:"Фильм",year:2013,country:"Россия",genre:"Драма",desc:"История становления знаменитого советского хоккеиста Валерия Харламова."},
+{id:4,title:"Движение вверх",type:"Фильм",year:2017,country:"Россия",genre:"Драма",desc:"Спортивная драма о финале баскетбольного турнира Олимпиады 1972 года."},
+{id:5,title:"Холоп",type:"Фильм",year:2019,country:"Россия",genre:"Комедия",desc:"Избалованный молодой человек неожиданно оказывается в декорациях помещичьей России."},
+{id:6,title:"Майор Гром: Чумной Доктор",type:"Фильм",year:2021,country:"Россия",genre:"Боевик",desc:"Петербургский полицейский расследует серию преступлений загадочного мстителя."},
+{id:7,title:"Интерстеллар",type:"Фильм",year:2014,country:"Зарубежное",genre:"Фантастика",desc:"Группа исследователей отправляется через червоточину на поиски нового дома для человечества."},
+{id:8,title:"Начало",type:"Фильм",year:2010,country:"Зарубежное",genre:"Фантастика",desc:"Команда специалистов проникает в сны людей, чтобы внедрить определённую идею."},
+{id:9,title:"Побег из Шоушенка",type:"Фильм",year:1994,country:"Зарубежное",genre:"Драма",desc:"История дружбы, надежды и свободы в стенах американской тюрьмы."},
+{id:10,title:"Матрица",type:"Фильм",year:1999,country:"Зарубежное",genre:"Фантастика",desc:"Программист узнаёт, что привычный мир может оказаться искусственной реальностью."},
+{id:11,title:"Гладиатор",type:"Фильм",year:2000,country:"Зарубежное",genre:"Боевик",desc:"Римский полководец теряет всё и становится гладиатором, стремясь восстановить справедливость."},
+{id:12,title:"Остров проклятых",type:"Фильм",year:2010,country:"Зарубежное",genre:"Триллер",desc:"Два федеральных маршала расследуют исчезновение пациентки психиатрической лечебницы."},
+{id:13,title:"1+1",type:"Фильм",year:2011,country:"Зарубежное",genre:"Комедия",desc:"Необычная дружба богатого аристократа и его помощника меняет жизнь обоих."},
+{id:14,title:"Паразиты",type:"Фильм",year:2019,country:"Зарубежное",genre:"Триллер",desc:"Две семьи из разных социальных миров оказываются связаны неожиданными обстоятельствами."},
+{id:15,title:"Дюна",type:"Фильм",year:2021,country:"Зарубежное",genre:"Фантастика",desc:"Наследник знатного дома отправляется на пустынную планету Арракис."},
+{id:16,title:"Бригада",type:"Сериал",year:2002,country:"Россия",genre:"Криминал",desc:"История четырёх друзей, чьи судьбы переплетаются с криминальным миром девяностых."},
+{id:17,title:"Кухня",type:"Сериал",year:2012,country:"Россия",genre:"Комедия",desc:"Комедийная история сотрудников московского ресторана и их непростых отношений."},
+{id:18,title:"Метод",type:"Сериал",year:2015,country:"Россия",genre:"Детектив",desc:"Следователь с необычным подходом расследует сложные преступления."},
+{id:19,title:"Эпидемия",type:"Сериал",year:2019,country:"Россия",genre:"Триллер",desc:"Группа людей пытается выжить во время опасной эпидемии."},
+{id:20,title:"Слово пацана",type:"Сериал",year:2023,country:"Россия",genre:"Драма",desc:"История подростков и уличных группировок Казани конца восьмидесятых."},
+{id:21,title:"Триггер",type:"Сериал",year:2018,country:"Россия",genre:"Драма",desc:"Психолог использует провокационный метод, чтобы помочь пациентам столкнуться с проблемами."},
+{id:22,title:"Во все тяжкие",type:"Сериал",year:2008,country:"Зарубежное",genre:"Драма",desc:"Учитель химии начинает производить наркотики после тяжёлого жизненного диагноза."},
+{id:23,title:"Игра престолов",type:"Сериал",year:2011,country:"Зарубежное",genre:"Фэнтези",desc:"Знатные семьи борются за власть в вымышленном мире Семи королевств."},
+{id:24,title:"Шерлок",type:"Сериал",year:2010,country:"Зарубежное",genre:"Детектив",desc:"Современная версия историй о Шерлоке Холмсе и докторе Ватсоне."},
+{id:25,title:"Очень странные дела",type:"Сериал",year:2016,country:"Зарубежное",genre:"Фантастика",desc:"В небольшом городе происходят загадочные события, связанные с параллельным миром."},
+{id:26,title:"Чернобыль",type:"Сериал",year:2019,country:"Зарубежное",genre:"Драма",desc:"История аварии на Чернобыльской АЭС и людей, столкнувшихся с её последствиями."},
+{id:27,title:"Настоящий детектив",type:"Сериал",year:2014,country:"Зарубежное",genre:"Детектив",desc:"Антология криминальных историй о расследованиях и человеческих судьбах."},
+{id:28,title:"Мандалорец",type:"Сериал",year:2019,country:"Зарубежное",genre:"Фантастика",desc:"Одинокий охотник за головами путешествует по галактике после падения Империи."},
+{id:29,title:"Игра в кальмара",type:"Сериал",year:2021,country:"Зарубежное",genre:"Триллер",desc:"Участники опасной игры соревнуются за огромный денежный приз."},
+{id:30,title:"Доктор Хаус",type:"Сериал",year:2004,country:"Зарубежное",genre:"Драма",desc:"Гениальный врач и его команда решают сложнейшие медицинские загадки."}
+];
 
 const icons=["🎬","🍳","📍","✨","🎁","🎲"];
 const names=Object.keys(data);
-let current="";
-let shown=[];
-let selected="";
-let result="";
-let used={};
+let current="",shown=[],selected="",result="",used={};
+let movieType="Фильм",selectedMovie=null;
 
-function read(key,fallback){
-try{return JSON.parse(localStorage.getItem(key))||fallback}catch(e){return fallback}
-}
-function save(key,value){localStorage.setItem(key,JSON.stringify(value))}
+function read(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}}
+function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
 let custom=read("customOptions",{});
 let favorites=read("favorites",[]);
 let history=read("history",[]);
 
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function hidePanels(){
+["game","catalog","detail","saved"].forEach(id=>document.getElementById(id).classList.remove("active"));
+document.getElementById("home").style.display="none";
+}
+function goHome(){
+hidePanels();
+document.getElementById("home").style.display="block";
+}
 function renderCategories(){
-document.getElementById("categories").innerHTML=names.map((name,i)=>
-`<button class="category" onclick="openCategory(${i})"><span class="emoji">${icons[i]}</span><strong>${name}</strong></button>`
-).join("");
+document.getElementById("categories").innerHTML=names.map((n,i)=>`<button class="category" onclick="openCategory(${i})"><span>${icons[i]}</span><strong>${n}</strong></button>`).join("");
 }
 function openCategory(i){
-current=names[i];
-document.getElementById("home").style.display="none";
-document.getElementById("saved").classList.remove("active");
+hidePanels();current=names[i];
 document.getElementById("game").classList.add("active");
 document.getElementById("categoryTitle").textContent=current;
-selected="";
-result="";
-newOptions();
-renderCustom();
+newOptions();renderCustom();
 }
-function allOptions(){
-return [...data[current],...(custom[current]||[])];
-}
+function allOptions(){return [...data[current],...(custom[current]||[])];}
 function newOptions(){
 let all=allOptions();
 if(!used[current])used[current]=[];
 if(used[current].length>=all.length)used[current]=[];
-let available=all.filter(x=>!used[current].includes(x));
-available.sort(()=>Math.random()-.5);
-shown=available.slice(0,5);
-shown.forEach(x=>used[current].push(x));
-selected="";
-result="";
+let available=all.filter(x=>!used[current].includes(x)).sort(()=>Math.random()-.5);
+shown=available.slice(0,5);shown.forEach(x=>used[current].push(x));
+selected="";result="";
 document.getElementById("result").textContent="Выбери один из вариантов";
 renderOptions();
 }
 function renderOptions(){
-document.getElementById("options").innerHTML=shown.map((x,i)=>
-`<button class="option ${selected===x?"selected":""}" onclick="selectOption(${i})">${i+1}. ${escapeHTML(x)}</button>`
-).join("");
+document.getElementById("options").innerHTML=shown.map((x,i)=>`<button class="option ${selected===x?"selected":""}" onclick="selectOption(${i})">${i+1}. ${escapeHTML(x)}</button>`).join("");
 }
 function selectOption(i){
-selected=shown[i];
-renderOptions();
+selected=shown[i];renderOptions();
 document.getElementById("result").textContent="Выбрано: "+selected;
 }
 function choose(){
 if(!shown.length)return;
-let value=selected||shown[Math.floor(Math.random()*shown.length)];
-result=value;
-selected=value;
-document.getElementById("result").textContent="🎯 "+value;
+let v=selected||shown[Math.floor(Math.random()*shown.length)];
+result=v;selected=v;
+document.getElementById("result").textContent="🎯 "+v;
 renderOptions();
-history.unshift({category:current,value,date:new Date().toLocaleString("ru-RU")});
-history=history.slice(0,50);
-save("history",history);
+history.unshift({category:current,value:v,date:new Date().toLocaleString("ru-RU")});
+history=history.slice(0,50);save("history",history);
 }
 function addFavorite(){
-let value=result||selected;
-if(!value){alert("Сначала выбери вариант");return}
-if(!favorites.some(x=>x.category===current&&x.value===value)){
-favorites.unshift({category:current,value});
-save("favorites",favorites);
+let v=result||selected;
+if(!v){alert("Сначала выбери вариант");return}
+if(!favorites.some(x=>x.value===v&&x.category===current)){
+favorites.unshift({category:current,value:v});save("favorites",favorites);
 }
 alert("Добавлено в избранное!");
 }
 function addCustom(){
-let input=document.getElementById("customInput");
-let value=input.value.trim();
-if(!value){alert("Напиши свой вариант");return}
-if(allOptions().some(x=>x.toLowerCase()===value.toLowerCase())){
-alert("Такой вариант уже есть");
-return;
-}
+let input=document.getElementById("customInput"),v=input.value.trim();
+if(!v)return alert("Напиши свой вариант");
+if(allOptions().some(x=>x.toLowerCase()===v.toLowerCase()))return alert("Такой вариант уже есть");
 if(!custom[current])custom[current]=[];
-custom[current].push(value);
-save("customOptions",custom);
-input.value="";
-renderCustom();
-newOptions();
+custom[current].push(v);save("customOptions",custom);
+input.value="";renderCustom();newOptions();
 }
 function renderCustom(){
-let list=custom[current]||[];
-document.getElementById("customList").innerHTML=list.length?list.map((x,i)=>
-`<div class="saveditem"><span>${escapeHTML(x)}</span><button class="delete" onclick="deleteCustom(${i})">Удалить</button></div>`
-).join(""):'<div class="empty">Пока нет собственных вариантов</div>';
+let a=custom[current]||[];
+document.getElementById("customList").innerHTML=a.length?a.map((v,i)=>`<div class="saveditem"><span>${escapeHTML(v)}</span><button class="delete" onclick="deleteCustom(${i})">Удалить</button></div>`).join(""):'<div class="empty">Пока нет собственных вариантов</div>';
 }
 function deleteCustom(i){
 if(!confirm("Удалить этот вариант?"))return;
-custom[current].splice(i,1);
-save("customOptions",custom);
-renderCustom();
-newOptions();
+custom[current].splice(i,1);save("customOptions",custom);renderCustom();newOptions();
 }
 function showSaved(type){
-document.getElementById("home").style.display="none";
-document.getElementById("game").classList.remove("active");
-document.getElementById("saved").classList.add("active");
+hidePanels();document.getElementById("saved").classList.add("active");
 document.getElementById("savedTitle").textContent=type==="favorites"?"Избранное":"История";
-let list=type==="favorites"?favorites:history;
-document.getElementById("savedList").innerHTML=list.length?list.map((x,i)=>
-`<div class="saveditem"><div><strong>${escapeHTML(x.value)}</strong><div class="small">${escapeHTML(x.category)} ${x.date?"· "+escapeHTML(x.date):""}</div></div>${type==="favorites"?`<button class="delete" onclick="removeFavorite(${i})">Удалить</button>`:""}</div>`
-).join(""):'<div class="empty">Здесь пока пусто</div>';
+let a=type==="favorites"?favorites:history;
+document.getElementById("savedList").innerHTML=a.length?a.map((x,i)=>`<div class="saveditem"><div><strong>${escapeHTML(x.value)}</strong><div class="muted">${escapeHTML(x.category||"")} ${x.date?"· "+escapeHTML(x.date):""}</div></div>${type==="favorites"?`<button class="delete" onclick="removeFavorite(${i})">Удалить</button>`:""}</div>`).join(""):'<div class="empty">Здесь пока пусто</div>';
 }
-function removeFavorite(i){
-favorites.splice(i,1);
+function removeFavorite(i){favorites.splice(i,1);save("favorites",favorites);showSaved("favorites");}
+
+function openCatalog(){
+hidePanels();document.getElementById("catalog").classList.add("active");
+setType("Фильм");
+}
+function setType(t){
+movieType=t;
+document.getElementById("filmsTab").className=t==="Фильм"?"action":"action secondary";
+document.getElementById("seriesTab").className=t==="Сериал"?"action":"action secondary";
+renderMovies();
+}
+function filteredMovies(){
+let q=document.getElementById("movieSearch").value.trim().toLowerCase();
+let g=document.getElementById("genreFilter").value;
+let c=document.getElementById("countryFilter").value;
+return movies.filter(m=>m.type===movieType&&
+(!q||m.title.toLowerCase().includes(q))&&
+(!g||m.genre===g)&&
+(!c||(c==="Россия"?m.country==="Россия":m.country!=="Россия")));
+}
+function renderMovies(){
+let list=filteredMovies();
+document.getElementById("movieCount").textContent="Найдено: "+list.length;
+document.getElementById("movieList").innerHTML=list.length?list.map(m=>`
+<div class="movie">
+<div class="poster">${escapeHTML(m.title.slice(0,1))}</div>
+<div class="movie-info">
+<h3>${escapeHTML(m.title)}</h3>
+<div class="movie-meta">${m.year} · ${escapeHTML(m.country)} · ${escapeHTML(m.genre)}</div>
+<div class="movie-desc">${escapeHTML(m.desc)}</div>
+<div class="movie-actions">
+<button class="action secondary" onclick="showDetail(${m.id})">Подробнее</button>
+<button class="action secondary" onclick="favoriteMovie(${m.id})">★</button>
+</div>
+</div></div>`).join(""):'<div class="empty">Ничего не найдено. Попробуй изменить фильтры.</div>';
+}
+function resetFilters(){
+document.getElementById("movieSearch").value="";
+document.getElementById("genreFilter").value="";
+document.getElementById("countryFilter").value="";
+renderMovies();
+}
+function showDetail(id){
+selectedMovie=movies.find(m=>m.id===id);
+if(!selectedMovie)return;
+document.getElementById("catalog").classList.remove("active");
+document.getElementById("detail").classList.add("active");
+let m=selectedMovie;
+document.getElementById("detailContent").innerHTML=`
+<div class="movie" style="margin-bottom:15px">
+<div class="poster" style="height:145px">${escapeHTML(m.title.slice(0,1))}</div>
+<div class="movie-info"><h3>${escapeHTML(m.title)}</h3>
+<div class="movie-meta">${m.year} · ${escapeHTML(m.country)}</div>
+<span class="badge">${escapeHTML(m.type)}</span><span class="badge">${escapeHTML(m.genre)}</span>
+</div></div>
+<h2>Описание</h2><p style="color:#ccc;line-height:1.6">${escapeHTML(m.desc)}</p>
+<button class="action" onclick="favoriteMovie(${m.id})">★ В избранное</button>`;
+}
+function backToCatalog(){
+document.getElementById("detail").classList.remove("active");
+document.getElementById("catalog").classList.add("active");
+}
+function favoriteMovie(id){
+let m=movies.find(x=>x.id===id);
+if(!m)return;
+if(!favorites.some(x=>x.movieId===id)){
+favorites.unshift({category:"Каталог · "+m.type,value:m.title+" ("+m.year+")",movieId:id});
 save("favorites",favorites);
-showSaved("favorites");
 }
-function goHome(){
-document.getElementById("home").style.display="block";
-document.getElementById("game").classList.remove("active");
-document.getElementById("saved").classList.remove("active");
+alert("Добавлено в избранное!");
 }
-function escapeHTML(s){
-return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function randomMovie(){
+let list=filteredMovies();
+if(!list.length)return alert("Нет фильмов для выбора. Измени фильтры.");
+let m=list[Math.floor(Math.random()*list.length)];
+showDetail(m.id);
+history.unshift({category:"Каталог · "+m.type,value:m.title+" ("+m.year+")",date:new Date().toLocaleString("ru-RU")});
+history=history.slice(0,50);save("history",history);
 }
 renderCategories();
 if("serviceWorker" in navigator){
