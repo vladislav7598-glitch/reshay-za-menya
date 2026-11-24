@@ -19,7 +19,6 @@ header{display:flex;align-items:center;justify-content:space-between;margin-bott
 .icon-btn{background:#24212f;border-radius:13px;padding:11px 13px;font-size:17px}
 h1{font-size:29px;line-height:1.15;margin:12px 0}
 .subtitle{color:#9995a8;line-height:1.5;margin-bottom:25px}
-.section-title{font-size:19px;font-weight:750;margin:25px 0 14px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .category{min-height:120px;text-align:left;padding:17px;border-radius:19px;background:linear-gradient(145deg,#272238,#1b1925);border:1px solid #393148}
 .category:active,.option:active{transform:scale(.98)}
@@ -42,10 +41,8 @@ h1{font-size:29px;line-height:1.15;margin:12px 0}
 .muted{color:#aaa4b8;line-height:1.5}
 .tag{display:inline-block;background:#302943;color:#c8b5ff;border-radius:20px;padding:6px 10px;font-size:12px;margin:4px 4px 4px 0}
 .footer{color:#716c7d;font-size:12px;text-align:center;margin-top:35px}
-.hidden{display:none!important}
 .list-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .small-btn{background:#302943;padding:9px 12px;border-radius:11px}
-@media(max-width:380px){.app{padding:18px 14px}.category{padding:14px}}
 </style>
 </head>
 <body>
@@ -54,7 +51,6 @@ h1{font-size:29px;line-height:1.15;margin:12px 0}
   <div class="logo">Решай <span>за меня</span></div>
   <button class="icon-btn" onclick="showSaved()">♡</button>
 </header>
-
 <main id="app"></main>
 <div class="footer">Меньше сомнений — больше действий.</div>
 </div>
@@ -154,13 +150,15 @@ let history=JSON.parse(localStorage.getItem("rzm_history")||"[]");
 let saved=JSON.parse(localStorage.getItem("rzm_saved")||"[]");
 
 const root=document.getElementById("app");
+
 function random(arr){return arr[Math.floor(Math.random()*arr.length)]}
+
 function saveHistory(item){
  history.unshift({title:item,date:new Date().toLocaleString("ru-RU")});
  history=history.slice(0,50);
  localStorage.setItem("rzm_history",JSON.stringify(history));
 }
-function goBack(){renderHome()}
+
 function renderHome(){
  screen="home";
  root.innerHTML=`
@@ -176,6 +174,7 @@ function renderHome(){
  </div>
  <button class="secondary" onclick="showHistory()">История выборов</button>`;
 }
+
 function openWatch(){
  screen="watch";
  root.innerHTML=`<button class="back" onclick="renderHome()">← Назад</button>
@@ -186,6 +185,7 @@ function openWatch(){
  <button class="option" onclick="randomMovie()"><strong>🎲 Выбери за меня</strong><small>Случайный фильм или сериал</small></button>
  </div>`;
 }
+
 function chooseWatchType(type){
  watchType=type;screen="genres";
  root.innerHTML=`<button class="back" onclick="openWatch()">← Назад</button>
@@ -194,10 +194,12 @@ function chooseWatchType(type){
  <button class="primary" onclick="randomMovie('${type}')">🎲 Выбери за меня</button>
  <div class="options">${genres.map(g=>`<button class="option" onclick="openMovieCatalog('${g}')"><strong>${g}</strong><small>Подборка: ${g.toLowerCase()}</small></button>`).join("")}</div>`;
 }
+
 function openMovieCatalog(genre){
  selectedGenre=genre;screen="catalog";
  renderMovieCatalog();
 }
+
 function renderMovieCatalog(){
  let list=movies.filter(m=>m.type===watchType&&m.genre===selectedGenre);
  root.innerHTML=`<button class="back" onclick="chooseWatchType('${watchType}')">← Назад</button>
@@ -206,21 +208,26 @@ function renderMovieCatalog(){
  <div id="movieList">${movieCards(list)}</div>
  <button class="primary" onclick="randomMovie('${watchType}','${selectedGenre}')">🎲 Выбери за меня</button>`;
 }
+
 function movieCards(list){
  if(!list.length)return `<div class="muted">Пока ничего не найдено.</div>`;
  return list.map(m=>`<div class="result"><div class="list-row"><h3>${m.title}</h3><button class="small-btn" onclick="toggleSaved('${m.title.replace(/'/g,"\\'")}')">${saved.includes(m.title)?"♥":"♡"}</button></div><span class="tag">${m.year}</span><span class="tag">${m.country}</span><span class="tag">${m.genre}</span></div>`).join("");
 }
+
 function filterMovies(){
  let q=document.getElementById("movieSearch").value.toLowerCase();
  let list=movies.filter(m=>m.type===watchType&&m.genre===selectedGenre&&m.title.toLowerCase().includes(q));
  document.getElementById("movieList").innerHTML=movieCards(list);
 }
+
 function randomMovie(type,genre){
  let list=movies.filter(m=>(!type||m.type===type)&&(!genre||m.genre===genre));
  if(!list.length)return;
- let m=random(list);saveHistory(m.title);
+ let m=random(list);
+ saveHistory(m.title);
  showResult("🎬 Тебе выпало",m.title,`${m.type} · ${m.year} · ${m.country} · ${m.genre}`);
 }
+
 function openCook(){
  screen="cook";
  root.innerHTML=`<button class="back" onclick="renderHome()">← Назад</button>
@@ -232,11 +239,13 @@ function openCook(){
  </div>
  <button class="primary" onclick="randomDish()">🎲 Выбери за меня</button>`;
 }
+
 function getCookGroups(mode){
  if(mode==="kitchen")return cookGroups;
  if(mode==="type")return cookTypes;
  return cookSituations;
 }
+
 function openCookGroups(mode){
  currentCookMode=mode;screen="cookGroups";
  let groups=getCookGroups(mode);
@@ -246,6 +255,7 @@ function openCookGroups(mode){
  <button class="primary" onclick="randomDishFromGroup()">🎲 Выбери за меня</button>
  <div class="options">${Object.keys(groups).map(name=>`<button class="option" onclick="openDishResults('${name.replace(/'/g,"\\'")}')"><strong>${name}</strong><small>${groups[name].length} вариантов</small></button>`).join("")}</div>`;
 }
+
 function openDishResults(name){
  currentCookGroup=name;
  currentCookCategory=name;
@@ -253,6 +263,7 @@ function openDishResults(name){
  screen="cookResults";
  renderDishes();
 }
+
 function renderDishes(){
  let qEl=document.getElementById("dishSearch");
  let q=qEl?qEl.value.toLowerCase():"";
@@ -266,31 +277,43 @@ function renderDishes(){
  </div>
  <button class="primary" onclick="randomDishFromResults()">🎲 Выбери за меня</button>`;
 }
+
 function selectDish(dish){
  saveHistory(dish);
  showResult("🍽️ Сегодня готовим",dish,"Отличный вариант! Приятного аппетита.");
 }
+
 function deliveryForCurrentGroup(){
  let query=(currentCookCategory||currentCookGroup||"еда")+" доставка еды";
  window.open("https://www.google.com/search?q="+encodeURIComponent(query),"_blank");
  saveHistory("Заказать доставку: "+(currentCookCategory||currentCookGroup));
 }
+
 function randomDishFromResults(){
  let options=[...currentDishes,"__DELIVERY__"];
  let choice=random(options);
- if(choice==="__DELIVERY__"){deliveryForCurrentGroup();return}
+ if(choice==="__DELIVERY__"){
+  deliveryForCurrentGroup();
+  return;
+ }
  selectDish(choice);
 }
+
 function randomDishFromGroup(){
  let groups=getCookGroups(currentCookMode);
  let names=Object.keys(groups);
  let name=random(names);
- currentCookGroup=name;currentCookCategory=name;
+ currentCookGroup=name;
+ currentCookCategory=name;
  let options=[...groups[name],"__DELIVERY__"];
  let choice=random(options);
- if(choice==="__DELIVERY__"){deliveryForCurrentGroup();return}
+ if(choice==="__DELIVERY__"){
+  deliveryForCurrentGroup();
+  return;
+ }
  selectDish(choice);
 }
+
 function randomDish(){
  let all=[];
  Object.entries(cookGroups).forEach(([group,items])=>items.forEach(d=>all.push({name:d,group})));
@@ -300,9 +323,13 @@ function randomDish(){
  let choice=random(all);
  currentCookCategory=choice.group;
  currentCookGroup=choice.group;
- if(choice.name==="__DELIVERY__"){deliveryForCurrentGroup();return}
+ if(choice.name==="__DELIVERY__"){
+  deliveryForCurrentGroup();
+  return;
+ }
  selectDish(choice.name);
 }
+
 function openGeneric(key){
  currentGeneric=key;screen="generic";
  let title=key==="go"?"Куда сходить?":key==="do"?"Чем заняться?":"Что подарить?";
@@ -312,14 +339,23 @@ function openGeneric(key){
  <button class="primary" onclick="randomGeneric()">🎲 Выбери за меня</button>
  <div class="options">${items.map(x=>`<button class="option" onclick="selectGeneric('${x.replace(/'/g,"\\'")}')"><strong>${x}</strong></button>`).join("")}</div>`;
 }
-function selectGeneric(x){saveHistory(x);showResult("✨ Твой вариант",x,"Решение принято!")}
-function randomGeneric(){selectGeneric(random(genericData[currentGeneric]))}
+
+function selectGeneric(x){
+ saveHistory(x);
+ showResult("✨ Твой вариант",x,"Решение принято!");
+}
+
+function randomGeneric(){
+ selectGeneric(random(genericData[currentGeneric]));
+}
+
 function randomEverything(){
  let keys=["go","do","gift"];
  let key=random(keys);
  currentGeneric=key;
  randomGeneric();
 }
+
 function showResult(title,name,description){
  root.innerHTML=`<button class="back" onclick="renderHome()">← На главную</button>
  <div class="panel" style="text-align:center;padding:28px 18px;margin-top:30px">
@@ -331,27 +367,42 @@ function showResult(title,name,description){
  <button class="secondary" onclick="repeatChoice()">Выбрать ещё раз</button>
  </div>`;
 }
+
+/* ИСПРАВЛЕННАЯ ФУНКЦИЯ */
 function repeatChoice(){
- if(screen==="cookResults")randomDishFromResults();
- else if(screen==="cookGroups")randomDishFromGroup();
- else if(screen==="cook")randomDish();
- else if(screen==="catalog")randomMovie(watchType,selectedGenre);
- else if(screen==="generic")randomGeneric();
- else renderHome();
+ if(screen==="cookResults"){
+  randomDishFromResults();
+ }else if(screen==="cookGroups"){
+  randomDishFromGroup();
+ }else if(screen==="cook"){
+  randomDish();
+ }else if(screen==="catalog"){
+  randomMovie(watchType,selectedGenre);
+ }else if(screen==="genres"){
+  randomMovie(watchType);
+ }else if(screen==="watch"){
+  randomMovie();
+ }else if(screen==="generic"){
+  randomGeneric();
+ }else{
+  renderHome();
+ }
 }
-}
+
 function toggleSaved(name){
  if(saved.includes(name))saved=saved.filter(x=>x!==name);
  else saved.push(name);
  localStorage.setItem("rzm_saved",JSON.stringify(saved));
  if(screen==="catalog")renderMovieCatalog();
 }
+
 function showSaved(){
  screen="saved";
  root.innerHTML=`<button class="back" onclick="renderHome()">← На главную</button>
  <h1>Избранное</h1><div class="subtitle">То, что ты сохранил.</div>
  ${saved.length?saved.map(x=>`<div class="result"><div class="list-row"><strong>${x}</strong><button class="small-btn" onclick="toggleSaved('${x.replace(/'/g,"\\'")}')">Убрать ♥</button></div></div>`).join(""):`<div class="muted">Пока здесь пусто. Сохраняй фильмы, которые понравились.</div>`}`;
 }
+
 function showHistory(){
  screen="history";
  root.innerHTML=`<button class="back" onclick="renderHome()">← На главную</button>
@@ -359,10 +410,15 @@ function showHistory(){
  ${history.length?history.map(x=>`<div class="result"><strong>${x.title}</strong><div class="muted" style="font-size:12px;margin-top:6px">${x.date}</div></div>`).join(""):`<div class="muted">История пока пуста.</div>`}
  <button class="secondary" onclick="clearHistory()">Очистить историю</button>`;
 }
+
 function clearHistory(){
- history=[];localStorage.setItem("rzm_history","[]");showHistory();
+ history=[];
+ localStorage.setItem("rzm_history","[]");
+ showHistory();
 }
+
 renderHome();
+
 if("serviceWorker" in navigator){
  window.addEventListener("load",()=>navigator.serviceWorker.register("./service-worker.js").catch(()=>{}));
 }
